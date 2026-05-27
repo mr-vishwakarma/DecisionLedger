@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-midnight: #0B0E14;
+  --color-brand-card: #151A23;
+  --color-brand-electric: #3B82F6;
+  --color-brand-electric-hover: #2563EB;
+  --color-brand-emerald: #10B981;
+  --color-brand-crimson: #EF4444;
+  --color-brand-text: #F3F4F6;
+  --color-brand-text-muted: #9CA3AF;
+  
+  --font-sans: 'Inter', 'Outfit', sans-serif;
+}
+
+body {
+  @apply bg-brand-midnight text-brand-text font-sans antialiased selection:bg-brand-electric selection:text-white;
+}
+
+/* Custom Glassmorphism Utility */
+.glass-panel {
+  @apply bg-brand-card/80 backdrop-blur-md border border-white/5 shadow-xl;
+}
+
+/* Custom scrollbar for webkit */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-white/10 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-white/20;
+}
