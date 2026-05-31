@@ -210,7 +210,8 @@ export function TeamPage() {
     
     setIsInviting(true);
     try {
-      const res = await fetch('/api/teams/invite', {
+      const apiBase = import.meta.env.VITE_API_URL || '';
+      const res = await fetch(`${apiBase}/api/teams/invite`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

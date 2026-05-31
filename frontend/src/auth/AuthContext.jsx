@@ -19,7 +19,8 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => window.localStorage.getItem(TOKEN_KEY));
 
   const loginUser = useCallback(async (email, password) => {
-    const res = await fetch('/api/auth/login', {
+    const apiBase = import.meta.env.VITE_API_URL || '';
+    const res = await fetch(`${apiBase}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
@@ -48,7 +49,8 @@ export function AuthProvider({ children }) {
   }, []);
 
   const registerUser = useCallback(async (name, email, password) => {
-    const res = await fetch('/api/auth/register', {
+    const apiBase = import.meta.env.VITE_API_URL || '';
+    const res = await fetch(`${apiBase}/api/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password })
@@ -77,7 +79,8 @@ export function AuthProvider({ children }) {
   }, []);
 
   const googleLoginUser = useCallback(async (credential) => {
-    const res = await fetch('/api/auth/google', {
+    const apiBase = import.meta.env.VITE_API_URL || '';
+    const res = await fetch(`${apiBase}/api/auth/google`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ credential })
