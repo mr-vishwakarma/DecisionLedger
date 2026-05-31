@@ -10,18 +10,23 @@ const protect = async (req, res, next) => {
   ) {
     try {
       token = req.headers.authorization.split(' ')[1];
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret');
+      const secret = process.env.ACCESS_TOKEN_SECRET || process.env.JWT_SECRET || 'fallback_access_secret';
+      const decoded = jwt.verify(token, secret);
 
       req.user = await User.findById(decoded.id).select('-password');
-      next();
+      if (!req.user) {
+        return res.status(401).json({ message: 'User not found, not authorized' });
+      }
+      return next();
     } catch (error) {
-      console.error(error);
-      res.status(401).json({ message: 'Not authorized, token failed' });
+      // Don't print the whole stack trace for an expired token, just log a warning
+      console.warn(`Auth failed: ${error.message}`);
+      return res.status(401).json({ message: 'Not authorized, token failed' });
     }
   }
 
   if (!token) {
-    res.status(401).json({ message: 'Not authorized, no token' });
+    return res.status(401).json({ message: 'Not authorized, no token' });
   }
 };
 

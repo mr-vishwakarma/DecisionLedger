@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Navbar = () => {
+  const { mode, setMode } = useTheme();
   return (
     <nav className="glass-panel sticky top-0 z-50 border-b border-white/5">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <Link to="/" className="flex items-center gap-2">
+        <Link to="/" replace className="flex items-center gap-2">
           <motion.div 
             initial={{ rotate: -10 }}
             animate={{ rotate: 0 }}
@@ -18,11 +20,19 @@ const Navbar = () => {
           </span>
         </Link>
         
-        <div className="flex gap-4">
-          <Link to="/login" className="px-4 py-2 text-sm font-medium text-brand-text-muted hover:text-white transition-colors">
+        <div className="flex gap-4 items-center">
+          <button 
+            onClick={() => setMode(mode === 'dark' ? 'light' : 'dark')} 
+            className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-white/70 transition-colors"
+          >
+            <span className="material-symbols-outlined text-sm">
+              {mode === 'dark' ? 'light_mode' : 'dark_mode'}
+            </span>
+          </button>
+          <Link to="/auth" replace className="px-4 py-2 text-sm font-medium text-brand-text-muted hover:text-white transition-colors">
             Log in
           </Link>
-          <Link to="/register" className="px-4 py-2 text-sm font-medium bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all border border-white/5">
+          <Link to="/register" replace className="px-4 py-2 text-sm font-medium bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all border border-white/5">
             Sign up
           </Link>
         </div>

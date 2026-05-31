@@ -37,9 +37,9 @@ const userSchema = new mongoose.Schema(
 );
 
 // Encrypt password before saving
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function () {
   if (!this.isModified('password')) {
-    next();
+    return;
   }
 
   // Only hash password if it exists

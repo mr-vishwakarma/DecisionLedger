@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const generateToken = require('../utils/generateToken');
+const { generateAccessToken, generateRefreshToken } = require('../utils/generateToken');
 const sendEmail = require('../utils/sendEmail');
 const jwt = require('jsonwebtoken');
 
@@ -47,7 +47,8 @@ const registerUser = async (req, res) => {
         name: user.name,
         email: user.email,
         isEmailVerified: user.isEmailVerified,
-        token: generateToken(user._id),
+        accessToken: generateAccessToken(user._id),
+        refreshToken: generateRefreshToken(user._id),
       });
     } else {
       res.status(400).json({ message: 'Invalid user data' });
@@ -72,7 +73,8 @@ const loginUser = async (req, res) => {
         name: user.name,
         email: user.email,
         isEmailVerified: user.isEmailVerified,
-        token: generateToken(user._id),
+        accessToken: generateAccessToken(user._id),
+        refreshToken: generateRefreshToken(user._id),
       });
     } else {
       res.status(401).json({ message: 'Invalid email or password' });
@@ -108,10 +110,25 @@ const verifyEmail = async (req, res) => {
 // @desc    Google OAuth Callback / Login
 // @route   POST /api/auth/google
 // @access  Public
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
 const googleAuth = async (req, res) => {
   try {
-    const { googleId, email, name, avatar } = req.body;
+    const { credential } = req.body;
     
+    // Verify the token securely with Google
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    const { sub: googleId, email, name, picture: avatar, email_verified } = payload;
+    
+    if (!email_verified) {
+      return res.status(400).json({ message: 'Google email is not verified' });
+    }
+
     let user = await User.findOne({ email });
     
     if (user) {
@@ -119,7 +136,7 @@ const googleAuth = async (req, res) => {
       if (!user.googleId) {
         user.googleId = googleId;
         user.avatar = avatar;
-        user.isEmailVerified = true; // Google emails are implicitly verified
+        user.isEmailVerified = true;
         await user.save();
       }
       res.json({
@@ -127,7 +144,8 @@ const googleAuth = async (req, res) => {
         name: user.name,
         email: user.email,
         isEmailVerified: user.isEmailVerified,
-        token: generateToken(user._id),
+        accessToken: generateAccessToken(user._id),
+        refreshToken: generateRefreshToken(user._id),
       });
     } else {
       // Create new user
@@ -143,11 +161,13 @@ const googleAuth = async (req, res) => {
         name: user.name,
         email: user.email,
         isEmailVerified: user.isEmailVerified,
-        token: generateToken(user._id),
+        accessToken: generateAccessToken(user._id),
+        refreshToken: generateRefreshToken(user._id),
       });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Google Auth Error:', error);
+    res.status(401).json({ message: 'Invalid Google Token' });
   }
 };
 
@@ -174,10 +194,130 @@ const getUserProfile = async (req, res) => {
   }
 };
 
+// @desc    Forgot Password
+// @route   POST /api/auth/forgot-password
+// @access  Public
+const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const resetToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'fallback_secret', { expiresIn: '15m' });
+    
+    // In production, use the actual frontend URL
+    const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+    const message = `You requested a password reset. Please go to this link to reset your password: \n\n ${resetUrl}`;
+    
+    try {
+      await sendEmail({
+        email: user.email,
+        subject: 'Password Reset Request',
+        message,
+      });
+      res.status(200).json({ message: 'Email sent' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Email could not be sent' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @desc    Reset Password
+// @route   POST /api/auth/reset-password/:token
+// @access  Public
+const resetPassword = async (req, res) => {
+  try {
+    const { password } = req.body;
+    const token = req.params.token;
+    
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret');
+    const user = await User.findById(decoded.id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    user.password = password;
+    await user.save();
+
+    res.status(200).json({ message: 'Password reset successful' });
+  } catch (error) {
+    res.status(400).json({ message: 'Invalid or expired token' });
+  }
+};
+
+// @desc    Refresh Access Token
+// @route   POST /api/auth/refresh
+// @access  Public
+const refreshToken = async (req, res) => {
+  try {
+    const { refreshToken } = req.body;
+    
+    if (!refreshToken) {
+      return res.status(400).json({ message: 'Refresh token is required' });
+    }
+
+    const secret = process.env.REFRESH_TOKEN_SECRET || (process.env.JWT_SECRET ? process.env.JWT_SECRET + '_refresh' : 'fallback_refresh_secret');
+    
+    const decoded = jwt.verify(refreshToken, secret);
+    
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const accessToken = generateAccessToken(user._id);
+    
+    res.json({ accessToken });
+  } catch (error) {
+    console.error('Refresh token error:', error);
+    res.status(401).json({ message: 'Invalid or expired refresh token' });
+  }
+};
+
+const updateUserProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.avatar = req.body.avatar || user.avatar;
+      
+      if (req.body.password) {
+        user.password = req.body.password;
+      }
+
+      const updatedUser = await user.save();
+
+      res.json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isEmailVerified: updatedUser.isEmailVerified,
+        avatar: updatedUser.avatar,
+      });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   verifyEmail,
   googleAuth,
   getUserProfile,
+  updateUserProfile,
+  forgotPassword,
+  resetPassword,
+  refreshToken,
 };

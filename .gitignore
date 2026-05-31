@@ -1,0 +1,35 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+*.log
+
+# Environment variables (SECURITY CRITICAL)
+.env
+.env.*
+!.env.example
+
+# Serverless Framework
+.serverless/
+
+# Frontend Build
+dist/
+build/
+out/
+
+# Blockchain Build Artifacts
+backend/build/
+!backend/build/contract_address.json
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE directories
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

@@ -1,0 +1,22 @@
+service: decision-ledger-backend
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: prod
+  region: us-east-1
+  environment:
+    MONGO_URI: ${env:MONGO_URI, ssm:/decisionledger/prod/MONGO_URI}
+    JWT_SECRET: ${env:JWT_SECRET, ssm:/decisionledger/prod/JWT_SECRET}
+    EMAIL_SERVICE: ${env:EMAIL_SERVICE, ssm:/decisionledger/prod/EMAIL_SERVICE}
+    EMAIL_USER: ${env:EMAIL_USER, ssm:/decisionledger/prod/EMAIL_USER}
+    EMAIL_PASS: ${env:EMAIL_PASS, ssm:/decisionledger/prod/EMAIL_PASS}
+    GOOGLE_CLIENT_ID: ${env:GOOGLE_CLIENT_ID, ssm:/decisionledger/prod/GOOGLE_CLIENT_ID}
+    GOOGLE_CLIENT_SECRET: ${env:GOOGLE_CLIENT_SECRET, ssm:/decisionledger/prod/GOOGLE_CLIENT_SECRET}
+    POLYGON_PRIVATE_KEY: ${env:POLYGON_PRIVATE_KEY, ssm:/decisionledger/prod/POLYGON_PRIVATE_KEY}
+
+functions:
+  api:
+    handler: lambda.handler
+    events:
+      - httpApi: '*'

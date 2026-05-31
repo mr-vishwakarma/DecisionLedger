@@ -1,22 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const {
-  createDecision,
-  getDecisions,
-  getDecisionById,
-  castVote,
-  finalizeDecision,
-} = require('../controllers/decisionController');
 const { protect } = require('../middleware/authMiddleware');
+const decisionController = require('../controllers/decisionController');
 
-router.route('/')
-  .get(getDecisions)
-  .post(protect, createDecision);
+// All routes are protected
+router.use(protect);
 
-router.route('/:id')
-  .get(getDecisionById);
-
-router.post('/:id/vote', protect, castVote);
-router.post('/:id/finalize', protect, finalizeDecision);
+router.post('/', decisionController.createDecision);
+router.get('/', decisionController.getDecisions);
+router.get('/:id', decisionController.getDecisionById);
+router.post('/:id/vote', decisionController.castVote);
+router.post('/:id/finalize', decisionController.finalizeDecision);
+router.get('/:id/verify-blockchain', decisionController.verifyDecisionBlockchain);
 
 module.exports = router;

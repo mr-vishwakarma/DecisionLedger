@@ -1,22 +1,82 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Dashboard from './pages/Dashboard';
-import Login from './pages/Login';
+import { BrowserRouter, Navigate, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+import { ToastContainer } from 'react-toastify';
+import LandingPage from './features/landing/LandingPage';
+import DashboardLayout from './components/DashboardLayout';
+import DashboardPage from './features/dashboard/DashboardPage';
+import DecisionsListPage from './features/decisions/DecisionsListPage';
+import NewDecisionPage from './features/decisions/NewDecisionPage';
+import DecisionDetailPage from './features/decisions/DecisionDetailPage';
+import TimelinePage from './features/timeline/TimelinePage';
+import AnalyticsPage from './features/analytics/AnalyticsPage';
+import AuthPage from './features/auth/AuthPage';
+import { FeaturesPage, PricingPage, DocumentationPage, CommunityPage } from './features/marketing/MarketingPages';
+import DemoPage from './features/marketing/DemoPage';
+import CommandCenter from './features/intelligence/CommandCenter';
+import { LogoutPage, MyVotesPage, ProfilePage, SettingsPage, TeamPage } from './features/account/WorkspacePages';
+import { AuthProvider } from './auth/AuthContext';
+import { ProtectedRoute, PublicOnlyRoute } from './routes/RouteGuards';
+import SkipNavigation from './components/SkipNavigation';
+import ScrollToTop from './components/ScrollToTop';
+
+function AppRoutes() {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        {/* Public */}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/auth" element={<PublicOnlyRoute><AuthPage /></PublicOnlyRoute>} />
+        <Route path="/login" element={<PublicOnlyRoute><AuthPage /></PublicOnlyRoute>} />
+        <Route path="/register" element={<PublicOnlyRoute><AuthPage /></PublicOnlyRoute>} />
+        <Route path="/features" element={<FeaturesPage />} />
+        <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/documentation" element={<DocumentationPage />} />
+        <Route path="/community" element={<CommunityPage />} />
+        <Route path="/demo" element={<DemoPage />} />
+        <Route path="/systems" element={<CommandCenter />} />
+        <Route path="/logout" element={<LogoutPage />} />
+
+        {/* Authenticated (Dashboard Layout) */}
+        <Route element={<ProtectedRoute />}>
+          <Route element={<DashboardLayout />}>
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/decisions" element={<DecisionsListPage />} />
+            <Route path="/decisions/new" element={<NewDecisionPage />} />
+            <Route path="/decisions/:id" element={<DecisionDetailPage />} />
+            <Route path="/votes" element={<MyVotesPage />} />
+            <Route path="/timeline" element={<TimelinePage />} />
+            <Route path="/teams" element={<TeamPage />} />
+            <Route path="/team" element={<TeamPage />} />
+            <Route path="/analytics" element={<AnalyticsPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+          </Route>
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </AnimatePresence>
+  );
+}
 
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-1 container mx-auto px-4 py-8">
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/login" element={<Login />} />
-            {/* Add more routes as needed */}
-          </Routes>
-        </main>
-      </div>
-    </Router>
+    <AuthProvider>
+      <BrowserRouter>
+        <SkipNavigation />
+        <ScrollToTop />
+        <AppRoutes />
+        <ToastContainer
+          position="top-right"
+          autoClose={2600}
+          closeOnClick
+          pauseOnFocusLoss={false}
+          newestOnTop
+          theme="dark"
+        />
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
