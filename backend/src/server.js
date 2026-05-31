@@ -15,6 +15,7 @@ const decisionRoutes = require('./routes/decisionRoutes');
 const teamRoutes = require('./routes/teamRoutes');
 const analyticsRoutes = require('./routes/analyticsRoutes');
 const userRoutes = require('./routes/userRoutes');
+const aiRoutes = require('./routes/aiRoutes');
 
 // Middleware
 app.use(express.json());
@@ -47,6 +48,7 @@ app.use('/api/decisions', decisionRoutes);
 app.use('/api/teams', teamRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/ai', aiRoutes);
 
 // Basic Route
 app.get('/', (req, res) => {

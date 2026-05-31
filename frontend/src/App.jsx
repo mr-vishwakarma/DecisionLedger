@@ -18,6 +18,7 @@ import { AuthProvider } from './auth/AuthContext';
 import { ProtectedRoute, PublicOnlyRoute } from './routes/RouteGuards';
 import SkipNavigation from './components/SkipNavigation';
 import ScrollToTop from './components/ScrollToTop';
+import AIChatWidget from './components/AIChatWidget';
 
 function AppRoutes() {
   const location = useLocation();
@@ -67,6 +68,7 @@ function App() {
         <SkipNavigation />
         <ScrollToTop />
         <AppRoutes />
+        <AIChatWidget />
         <ToastContainer
           position="top-right"
           autoClose={2600}
