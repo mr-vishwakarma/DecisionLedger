@@ -14,6 +14,7 @@ provider:
     GOOGLE_CLIENT_ID: ${env:GOOGLE_CLIENT_ID, ssm:/decisionledger/prod/GOOGLE_CLIENT_ID}
     GOOGLE_CLIENT_SECRET: ${env:GOOGLE_CLIENT_SECRET, ssm:/decisionledger/prod/GOOGLE_CLIENT_SECRET}
     POLYGON_PRIVATE_KEY: ${env:POLYGON_PRIVATE_KEY, ssm:/decisionledger/prod/POLYGON_PRIVATE_KEY}
+    GEMINI_API_KEY: ${env:GEMINI_API_KEY, ssm:/decisionledger/prod/GEMINI_API_KEY}
 
 functions:
   api:
