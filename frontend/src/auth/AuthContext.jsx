@@ -80,7 +80,7 @@ export function AuthProvider({ children }) {
 
   const googleLoginUser = useCallback(async (credential) => {
     const apiBase = import.meta.env.VITE_API_URL || '';
-    const res = await fetch(`${apiBase}/api/auth/google`, {
+    const res = await fetch(`${apiBase}/api/auth/google/callback`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ credential })

@@ -17,6 +17,7 @@ router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.get('/verifyemail/:token', verifyEmail);
 router.post('/google', googleAuth);
+router.post('/google/callback', googleAuth);
 router.get('/profile', protect, getUserProfile);
 router.put('/profile', protect, updateUserProfile);
 router.post('/forgot-password', forgotPassword);
