@@ -133,8 +133,14 @@ export default function AIChatWidget() {
       });
 
       if (!response.ok) {
-        const err = await response.json();
-        throw new Error(err.message || 'Request failed');
+        let errMessage = 'Request failed';
+        try {
+          const err = await response.json();
+          errMessage = err.message || errMessage;
+        } catch (parseError) {
+          errMessage = `Server error (${response.status}). Please ensure the backend is running.`;
+        }
+        throw new Error(errMessage);
       }
 
       const data = await response.json();
@@ -194,7 +200,7 @@ export default function AIChatWidget() {
                 <div>
                   <div style={styles.headerTitle}>DecisionLedger AI</div>
                   <div style={styles.headerSubtitle}>
-                    <span style={styles.statusDot} /> Online · Gemini 1.5 Flash
+                    <span style={styles.statusDot} /> Online · Gemini 2.5 Flash
                   </div>
                 </div>
               </div>
@@ -289,7 +295,7 @@ export default function AIChatWidget() {
             </div>
 
             <div style={styles.footer}>
-              Powered by Gemini 1.5 Flash · Press Enter to send
+              Powered by Gemini 2.5 Flash · Press Enter to send
             </div>
           </motion.div>
         )}
