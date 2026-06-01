@@ -5,6 +5,7 @@ const {
   loginUser,
   verifyEmail,
   googleAuth,
+  githubAuth,
   getUserProfile,
   updateUserProfile,
   forgotPassword,
@@ -18,6 +19,8 @@ router.post('/login', loginUser);
 router.get('/verifyemail/:token', verifyEmail);
 router.post('/google', googleAuth);
 router.post('/google/callback', googleAuth);
+router.post('/github', githubAuth);
+router.post('/github/callback', githubAuth);
 router.get('/profile', protect, getUserProfile);
 router.put('/profile', protect, updateUserProfile);
 router.post('/forgot-password', forgotPassword);

@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       // For Google Auth
     },
+    githubId: {
+      type: String,
+      // For GitHub Auth
+    },
     avatar: {
       type: String,
       default: '',

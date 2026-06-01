@@ -108,6 +108,36 @@ export function AuthProvider({ children }) {
     return nextUser;
   }, []);
 
+  const githubLoginUser = useCallback(async (code) => {
+    const apiBase = import.meta.env.VITE_API_URL || '';
+    const res = await fetch(`${apiBase}/api/auth/github/callback`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code })
+    });
+    
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || 'GitHub Auth failed');
+    }
+
+    const data = await res.json();
+    const nextUser = {
+      _id: data._id,
+      email: data.email,
+      name: data.name,
+      isEmailVerified: data.isEmailVerified,
+      avatar: data.avatar,
+    };
+    
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(nextUser));
+    window.localStorage.setItem(TOKEN_KEY, data.accessToken);
+    window.localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken);
+    setUser(nextUser);
+    setToken(data.accessToken);
+    return nextUser;
+  }, []);
+
   const logout = useCallback(() => {
     window.localStorage.removeItem(STORAGE_KEY);
     window.localStorage.removeItem(TOKEN_KEY);
@@ -124,9 +154,10 @@ export function AuthProvider({ children }) {
       loginUser,
       registerUser,
       googleLoginUser,
+      githubLoginUser,
       logout,
     }),
-    [loginUser, registerUser, googleLoginUser, logout, user, token]
+    [loginUser, registerUser, googleLoginUser, githubLoginUser, logout, user, token]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

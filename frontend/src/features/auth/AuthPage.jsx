@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useMemo, useRef, useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { toast } from 'react-toastify';
@@ -51,8 +51,23 @@ export default function AuthPage() {
   const passwordRef = useRef(null);
   const nameRef = useRef(null);
   const navigate = useNavigate();
-  const { loginUser, registerUser, googleLoginUser } = useAuth();
+  const { loginUser, registerUser, googleLoginUser, githubLoginUser } = useAuth();
   const isSignup = mode === 'signup';
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const code = params.get('code');
+    if (code) {
+      const from = location.state?.from?.startsWith('/') ? location.state.from : '/dashboard';
+      githubLoginUser(code).then(() => {
+        toast.success('Signed in with GitHub successfully.');
+        navigate(from === '/auth' || from === '/login' || from === '/register' ? '/dashboard' : from, { replace: true });
+      }).catch(error => {
+        toast.error(error.message || 'GitHub Auth failed');
+        navigate('/login', { replace: true });
+      });
+    }
+  }, [location.search, githubLoginUser, location.state, navigate]);
 
   const handleSubmit = useCallback(async (event) => {
     event.preventDefault();
@@ -215,7 +230,9 @@ export default function AuthPage() {
               </div>
 
               <div className="grid gap-3 sm:grid-cols-1">
-                <button type="button" onClick={() => toast.info('GitHub Auth requires backend integration.')} className="btn-secondary flex items-center justify-center gap-3 py-3">
+                <button type="button" onClick={() => {
+                  window.location.assign(`https://github.com/login/oauth/authorize?client_id=${import.meta.env.VITE_GITHUB_CLIENT_ID}&scope=user:email`);
+                }} className="btn-secondary flex items-center justify-center gap-3 py-3">
                   <span className="material-symbols-outlined text-lg">code</span>
                   GitHub
                 </button>
