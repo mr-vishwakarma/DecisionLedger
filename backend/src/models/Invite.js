@@ -33,7 +33,22 @@ const inviteSchema = new mongoose.Schema({
     type: Date,
     required: true,
     default: () => new Date(+new Date() + 7 * 24 * 60 * 60 * 1000) // 7 days from now
-  }
+  },
+  ledgerHash: {
+    type: String,
+    default: '',
+  },
+  blockchainTxHash: {
+    type: String,
+    default: '',
+  },
+  blockchainTimestamp: {
+    type: Date,
+  },
+  blockchainAnchored: {
+    type: Boolean,
+    default: false,
+  },
 }, { timestamps: true });
 
 // Automatically delete expired invites

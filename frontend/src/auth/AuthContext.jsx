@@ -17,6 +17,8 @@ function readStoredUser() {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(readStoredUser);
   const [token, setToken] = useState(() => window.localStorage.getItem(TOKEN_KEY));
+  const [showCompanyModal, setShowCompanyModal] = useState(false);
+  const [showAiChat, setShowAiChat] = useState(false);
 
   const loginUser = useCallback(async (email, password) => {
     const apiBase = import.meta.env.VITE_API_URL || '';
@@ -38,6 +40,7 @@ export function AuthProvider({ children }) {
       name: data.name,
       isEmailVerified: data.isEmailVerified,
       avatar: data.avatar,
+      companyName: data.companyName,
     };
     
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(nextUser));
@@ -45,6 +48,7 @@ export function AuthProvider({ children }) {
     window.localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken);
     setUser(nextUser);
     setToken(data.accessToken);
+    if (!nextUser.companyName) setShowCompanyModal(true);
     return nextUser;
   }, []);
 
@@ -68,6 +72,7 @@ export function AuthProvider({ children }) {
       name: data.name,
       isEmailVerified: data.isEmailVerified,
       avatar: data.avatar,
+      companyName: data.companyName,
     };
     
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(nextUser));
@@ -75,6 +80,7 @@ export function AuthProvider({ children }) {
     window.localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken);
     setUser(nextUser);
     setToken(data.accessToken);
+    if (!nextUser.companyName) setShowCompanyModal(true);
     return nextUser;
   }, []);
 
@@ -98,6 +104,7 @@ export function AuthProvider({ children }) {
       name: data.name,
       isEmailVerified: data.isEmailVerified,
       avatar: data.avatar,
+      companyName: data.companyName,
     };
     
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(nextUser));
@@ -105,6 +112,7 @@ export function AuthProvider({ children }) {
     window.localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken);
     setUser(nextUser);
     setToken(data.accessToken);
+    if (!nextUser.companyName) setShowCompanyModal(true);
     return nextUser;
   }, []);
 
@@ -128,6 +136,7 @@ export function AuthProvider({ children }) {
       name: data.name,
       isEmailVerified: data.isEmailVerified,
       avatar: data.avatar,
+      companyName: data.companyName,
     };
     
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(nextUser));
@@ -135,6 +144,7 @@ export function AuthProvider({ children }) {
     window.localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken);
     setUser(nextUser);
     setToken(data.accessToken);
+    if (!nextUser.companyName) setShowCompanyModal(true);
     return nextUser;
   }, []);
 
@@ -146,6 +156,24 @@ export function AuthProvider({ children }) {
     setToken(null);
   }, []);
 
+  const updateCompanyName = async (companyName) => {
+    const apiBase = import.meta.env.VITE_API_URL || '';
+    const res = await fetch(`${apiBase}/api/auth/profile/company`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ companyName }),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || 'Update company failed');
+    }
+    const updated = await res.json();
+    const updatedUser = { ...user, companyName: updated.companyName };
+    setUser(updatedUser);
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedUser));
+    setShowCompanyModal(false);
+  };
+
   const value = useMemo(
     () => ({
       user,
@@ -156,8 +184,13 @@ export function AuthProvider({ children }) {
       googleLoginUser,
       githubLoginUser,
       logout,
+      showCompanyModal,
+      setShowCompanyModal,
+      updateCompanyName,
+      showAiChat,
+      setShowAiChat,
     }),
-    [loginUser, registerUser, googleLoginUser, githubLoginUser, logout, user, token]
+    [loginUser, registerUser, googleLoginUser, githubLoginUser, logout, user, token, showCompanyModal, showAiChat]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

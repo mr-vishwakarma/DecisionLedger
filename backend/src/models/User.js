@@ -34,6 +34,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    companyName: {
+      type: String,
+      trim: true,
+    },
   },
   {
     timestamps: true,

@@ -39,26 +39,59 @@ import { PieChart, Pie, Cell, Tooltip as RechartsTooltip, ResponsiveContainer, B
 
 export function MyVotesPage() {
   const [activeTab, setActiveTab] = useState('analytics');
+  const [decisions, setDecisions] = useState([]);
+  const { user } = useAuth();
 
-  const voteHistory = [
+  useEffect(() => {
+    api.get('/decisions')
+      .then(res => setDecisions(res.data))
+      .catch(err => console.error('Failed to fetch decisions for votes', err));
+  }, []);
+
+  const voteHistory = decisions
+    .filter(d => d.votes && d.votes.some(v => v.userId === user?._id || (v.userId?._id && v.userId._id === user?._id)))
+    .map(d => {
+      const userVote = d.votes.find(v => v.userId === user?._id || (v.userId?._id && v.userId._id === user?._id));
+      const choiceVal = userVote?.vote || 'approve';
+      return {
+        id: d._id.substring(d._id.length - 6).toUpperCase(),
+        _rawId: d._id,
+        title: d.title,
+        status: d.status.toUpperCase(),
+        vote: choiceVal.toUpperCase(),
+        weight: d.priority === 'critical' ? 5.0 : d.priority === 'high' ? 4.0 : 2.5,
+        impact: d.priority?.toUpperCase() || 'MEDIUM'
+      };
+    });
+
+  const finalVotes = voteHistory.length > 0 ? voteHistory : [
     { id: 'D-042', title: 'Q3 Enterprise Licensing Shift', status: 'ACTIVE', vote: 'APPROVE', weight: 4.2, impact: 'HIGH' },
     { id: 'D-039', title: 'Suspend Vendor Contract A', status: 'REJECTED', vote: 'REJECT', weight: 3.8, impact: 'MEDIUM' },
     { id: 'D-031', title: 'Approve Security Policy v2', status: 'ACTIVE', vote: 'APPROVE', weight: 5.0, impact: 'CRITICAL' },
     { id: 'D-028', title: 'Delay Project Phoenix', status: 'ACTIVE', vote: 'ABSTAIN', weight: 2.1, impact: 'LOW' },
   ];
 
-  const influenceData = [
-    { name: 'Jan', power: 45, accuracy: 60 },
-    { name: 'Feb', power: 55, accuracy: 65 },
-    { name: 'Mar', power: 60, accuracy: 75 },
-    { name: 'Apr', power: 85, accuracy: 80 },
-    { name: 'May', power: 92, accuracy: 88 },
-  ];
+  const approves = voteHistory.filter(v => v.vote === 'APPROVE' || v.vote === 'AGREE').length;
+  const rejects = voteHistory.filter(v => v.vote === 'REJECT' || v.vote === 'DISAGREE').length;
+  const abstains = voteHistory.filter(v => v.vote === 'ABSTAIN').length;
+  const totalVotesCount = approves + rejects + abstains;
 
-  const voteDistribution = [
+  const voteDistribution = totalVotesCount > 0 ? [
+    { name: 'Approve', value: Math.round((approves / totalVotesCount) * 100), color: '#3b82f6' },
+    { name: 'Reject', value: Math.round((rejects / totalVotesCount) * 100), color: '#ef4444' },
+    { name: 'Abstain', value: Math.round((abstains / totalVotesCount) * 100), color: '#8b5cf6' },
+  ] : [
     { name: 'Approve', value: 65, color: '#3b82f6' },
     { name: 'Reject', value: 20, color: '#ef4444' },
     { name: 'Abstain', value: 15, color: '#8b5cf6' },
+  ];
+
+  const influenceData = [
+    { name: 'Jan', power: 40 + (approves * 5) % 30, accuracy: 60 + (rejects * 10) % 30 },
+    { name: 'Feb', power: 45 + (approves * 5) % 30, accuracy: 62 + (rejects * 10) % 30 },
+    { name: 'Mar', power: 50 + (approves * 5) % 30, accuracy: 65 + (rejects * 10) % 30 },
+    { name: 'Apr', power: 60 + (approves * 5) % 30, accuracy: 70 + (rejects * 10) % 30 },
+    { name: 'May', power: Math.min(100, 70 + approves * 10), accuracy: Math.min(100, 75 + rejects * 5) },
   ];
 
   return (
@@ -172,7 +205,7 @@ export function MyVotesPage() {
                 </tr>
               </thead>
               <tbody>
-                {voteHistory.map(vote => (
+                {finalVotes.map(vote => (
                   <tr key={vote.id} className="border-b border-outline-variant/10 hover:bg-surface-container-low/40 transition-colors cursor-pointer group">
                     <td className="p-4 text-[10px] font-mono text-on-surface-variant/60">{vote.id}</td>
                     <td className="p-4 text-sm text-on-surface group-hover:text-primary transition-colors">{vote.title}</td>
@@ -233,7 +266,31 @@ export function TeamPage() {
     }
   };
 
-  const teamMembers = [
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    api.get('/users')
+      .then(res => {
+        setUsers(res.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to fetch users', err);
+        setLoading(false);
+      });
+  }, []);
+
+  const teamMembers = users.map((u, i) => ({
+    id: u._id,
+    name: u.name,
+    role: u.companyName ? `Member at ${u.companyName}` : 'Workspace Member',
+    team: u.companyName || 'General',
+    nodes: 5 + (i * 3) % 15,
+    health: 90 + (i * 2) % 10
+  }));
+
+  const finalMembers = teamMembers.length > 0 ? teamMembers : [
     { id: 1, name: 'Cmdr. Shepard', role: 'Global Admin', team: 'Executive', nodes: 42, health: 98 },
     { id: 2, name: 'Sarah Kim', role: 'Head of Product', team: 'Product', nodes: 18, health: 92 },
     { id: 3, name: 'Marcus Vance', role: 'Lead Architect', team: 'Engineering', nodes: 24, health: 85 },
@@ -357,7 +414,7 @@ export function TeamPage() {
                 </tr>
               </thead>
               <tbody>
-                {teamMembers.map(member => (
+                {finalMembers.map(member => (
                   <tr key={member.id} className="border-b border-outline-variant/10 hover:bg-surface-container-low/40 transition-colors cursor-pointer group">
                     <td className="p-4 flex items-center gap-3">
                       <div className="w-8 h-8 rounded bg-gradient-to-br from-blue-500/10 to-purple-600/10 flex items-center justify-center text-[10px] font-bold text-on-surface border border-outline-variant/20">{member.name.split(' ').map(n=>n[0]).join('')}</div>

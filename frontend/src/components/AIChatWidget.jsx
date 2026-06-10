@@ -63,7 +63,8 @@ function MessageBubble({ message }) {
 }
 
 export default function AIChatWidget() {
-  const { user, token } = useAuth();
+  const { user, token, showAiChat, setShowAiChat } = useAuth();
+  const isLoggedIn = !!token;
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
@@ -71,6 +72,12 @@ export default function AIChatWidget() {
       role: 'model',
       text: `👋 Hi **${user?.name?.split(' ')[0] || 'there'}**! I'm your DecisionLedger AI Assistant.\n\nAsk me anything about the app — how to create decisions, vote, use analytics, manage teams, and more!`,
     },
+    // Governance AI greeting when logged in
+    ...(isLoggedIn ? [{
+      id: 'gov-welcome',
+      role: 'model',
+      text: `🛡️ Welcome to Governance AI. I can access your company profile data and answer real‑time questions about the app.\n\n*Developer: Ram Vishwakarma*`,
+    }] : []),
   ]);
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -154,8 +161,124 @@ export default function AIChatWidget() {
 
   return (
     <>
+      {/* Governance AI – toggleable for logged‑in users */}
       <AnimatePresence>
-        {isOpen && (
+        {isLoggedIn && showAiChat && (
+          <motion.div
+            id="ai-chat-panel"
+            key="governance-panel"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            style={styles.panelTopRight}
+          >
+            {/* Header */}
+            <div style={styles.header}>
+              <div style={styles.headerLeft}>
+                <div style={styles.botIconSmall}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke="#22c55e" strokeWidth="2" fill="none"/>
+                    <circle cx="12" cy="12" r="3" fill="#22c55e" />
+                  </svg>
+                </div>
+                <div>
+                  <div style={styles.headerTitle}>Governance AI</div>
+                  <div style={styles.headerSubtitle}>
+                    <span style={styles.statusDot} /> Online – real‑time company data
+                  </div>
+                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.6)', marginTop: '4px' }}>
+                    Developer: Ram Vishwakarma
+                  </div>
+                </div>
+              </div>
+              <button onClick={() => setShowAiChat(false)} style={styles.closeButton}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </button>
+            </div>
+
+          {/* Quick Questions – same as before */}
+          {showQuickQuestions && messages.length === 1 && !isLoading && (
+            <div style={styles.quickQuestionsWrapper}>
+              <div style={styles.quickQuestionsTitle}>Suggested inquiries</div>
+              <div style={styles.quickQuestionsContainer}>
+                {QUICK_QUESTIONS.map((q) => (
+                  <button
+                    key={q}
+                    onClick={() => sendMessage(q)}
+                    style={styles.quickQuestionBtn}
+                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Messages Container */}
+          <div style={styles.messagesContainer}>
+            {messages.map((msg) => (
+              <MessageBubble key={msg.id} message={msg} />
+            ))}
+            {isLoading && <TypingIndicator />}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Input Area – identical to original */}
+          <div style={styles.inputWrapper}>
+            <div style={styles.inputPill}>
+              <button style={styles.iconButton}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+              </button>
+              <textarea
+                ref={inputRef}
+                id="ai-chat-input"
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Message Governance AI..."
+                style={styles.input}
+                rows={1}
+                disabled={isLoading}
+              />
+              <button style={styles.iconButton}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                  <line x1="12" y1="19" x2="12" y2="22"/>
+                </svg>
+              </button>
+              <button
+                onClick={() => sendMessage(inputText)}
+                disabled={isLoading || !inputText.trim()}
+                style={{
+                  ...styles.sendButton,
+                  opacity: isLoading || !inputText.trim() ? 0.5 : 1,
+                  cursor: isLoading || !inputText.trim() ? 'not-allowed' : 'pointer',
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 19V5M5 12l7-7 7 7" stroke="#000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+            </div>
+            <div style={styles.footer}>
+              AI can make mistakes. Verify critical information.
+            </div>
+          </div>
+        </motion.div>
+      )}
+      </AnimatePresence>
+
+      {/* Standard chat for guests – styled as Governance AI */}
+      <AnimatePresence>
+        {isOpen && !isLoggedIn && (
           <>
             <motion.div
               initial={{ opacity: 0 }}
@@ -183,9 +306,12 @@ export default function AIChatWidget() {
                     </svg>
                   </div>
                   <div>
-                    <div style={styles.headerTitle}>DecisionLedger AI Assistant</div>
+                    <div style={styles.headerTitle}>Governance AI (Guest)</div>
                     <div style={styles.headerSubtitle}>
                       <span style={styles.statusDot} /> Online and ready
+                    </div>
+                    <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.6)', marginTop: '4px' }}>
+                      Developer: Ram Vishwakarma
                     </div>
                   </div>
                 </div>
@@ -240,7 +366,7 @@ export default function AIChatWidget() {
                     value={inputText}
                     onChange={(e) => setInputText(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder="Message DecisionLedger AI..."
+                    placeholder="Message Governance AI..."
                     style={styles.input}
                     rows={1}
                     disabled={isLoading}
@@ -275,8 +401,8 @@ export default function AIChatWidget() {
         )}
       </AnimatePresence>
 
-      {/* Floating Action Button */}
-      {!isOpen && (
+      {/* FAB – only for guests */}
+      {!isOpen && !isLoggedIn && (
         <motion.button
           onClick={handleToggle}
           whileHover={{ scale: 1.05 }}
@@ -316,6 +442,7 @@ const styles = {
     boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
     zIndex: 9999,
   },
+  // Standard panel (used for guest chat)
   panel: {
     position: 'fixed',
     top: 0,
@@ -330,6 +457,22 @@ const styles = {
     zIndex: 9998,
     fontFamily: 'Inter, system-ui, sans-serif',
     boxShadow: '-10px 0 30px rgba(0,0,0,0.5)',
+  },
+  // Governance AI panel – top‑right, smaller and always visible for logged‑in users
+  panelTopRight: {
+    position: 'fixed',
+    top: '20px',
+    right: '20px',
+    width: '360px',
+    maxWidth: '90vw',
+    background: '#111113',
+    border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: '12px',
+    display: 'flex',
+    flexDirection: 'column',
+    zIndex: 9999,
+    fontFamily: 'Inter, system-ui, sans-serif',
+    boxShadow: '0 4px 24px rgba(0,0,0,0.6)',
   },
   header: {
     display: 'flex',

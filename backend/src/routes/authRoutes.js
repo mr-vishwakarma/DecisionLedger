@@ -11,6 +11,7 @@ const {
   forgotPassword,
   resetPassword,
   refreshToken,
+  updateCompanyName,
 } = require('../controllers/authController');
 const { protect } = require('../middleware/authMiddleware');
 
@@ -25,6 +26,6 @@ router.get('/profile', protect, getUserProfile);
 router.put('/profile', protect, updateUserProfile);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password/:token', resetPassword);
+router.patch('/profile/company', protect, updateCompanyName);
 router.post('/refresh', refreshToken);
-
 module.exports = router;

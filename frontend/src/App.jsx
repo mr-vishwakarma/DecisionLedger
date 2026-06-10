@@ -19,6 +19,7 @@ import { ProtectedRoute, PublicOnlyRoute } from './routes/RouteGuards';
 import SkipNavigation from './components/SkipNavigation';
 import ScrollToTop from './components/ScrollToTop';
 import AIChatWidget from './components/AIChatWidget';
+import CompanyNameModal from './components/CompanyNameModal';
 
 function AppRoutes() {
   const location = useLocation();
@@ -69,6 +70,7 @@ function App() {
         <ScrollToTop />
         <AppRoutes />
         <AIChatWidget />
+        <CompanyNameModal />
         <ToastContainer
           position="top-right"
           autoClose={2600}

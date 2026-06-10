@@ -1,18 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import api from '../../services/api';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function TimelinePage() {
   const [zoomLevel, setZoomLevel] = useState(1);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
-  const historicalEvents = [
-    { id: 1, year: 2020, month: 'Jan', title: 'Ledger Initialized', type: 'CORE', description: 'Genesis block established for strategic memory.', x: 10, y: 50 },
-    { id: 2, year: 2021, month: 'Mar', title: 'Series A Funding', type: 'FINANCE', description: 'Secured $12M. Dilution approved at 15%.', x: 25, y: 40 },
-    { id: 3, year: 2022, month: 'Nov', title: 'Acquisition: StartupX', type: 'M&A', description: 'Absorbed engineering talent and IP.', x: 45, y: 60 },
-    { id: 4, year: 2023, month: 'Jul', title: 'Remote Work Pivot', type: 'HR', description: 'Shifted to global distributed team model.', x: 60, y: 30 },
-    { id: 5, year: 2024, month: 'Dec', title: 'Enterprise Tier Launch', type: 'PRODUCT', description: 'Opened up $50k+ ACV pipelines.', x: 80, y: 50 },
-    { id: 6, year: 2026, month: 'Present', title: 'Current Era', type: 'SYSTEM', description: '1,042 strategic decisions secured.', x: 95, y: 50 },
-  ];
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    api.get('/timeline')
+      .then(res => setEvents(res.data))
+      .catch(err => console.error('Failed to fetch timeline', err));
+  }, []);
+
+  // Map backend events to UI shape (ensure fields: id, year, month, title, type, description, x, y)
+  const historicalEvents = events.map((ev, index) => {
+    // Distribute nodes evenly between 15% and 90% of the canvas width
+    const x = 15 + (index * 75) / Math.max(1, events.length - 1);
+    // Project nodes on a wave aligning with the visual path
+    const y = 50 + 15 * Math.sin((x / 100) * 2.5 * Math.PI);
+    return {
+      id: ev._id || ev.id,
+      year: new Date(ev.createdAt).getFullYear(),
+      month: new Date(ev.createdAt).toLocaleString('default', { month: 'short' }),
+      title: ev.action ? ev.action.replace('_', ' ') : 'EVENT',
+      type: ev.action || 'EVENT',
+      description: ev.details || 'No details provided.',
+      x: Math.round(x),
+      y: Math.round(y),
+    };
+  });
 
   return (
     <div className="flex flex-col h-full bg-background text-on-surface overflow-hidden p-8">

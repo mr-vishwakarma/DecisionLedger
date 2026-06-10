@@ -1,61 +1,113 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import api from '../../services/api';
 import { motion } from 'framer-motion';
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 
 export default function DashboardPage() {
-  // Mock Data
-  const forecastData = [
-    { name: 'Week 1', velocity: 12, friction: 8, risk: 4 },
-    { name: 'Week 2', velocity: 19, friction: 6, risk: 3 },
-    { name: 'Week 3', velocity: 15, friction: 9, risk: 5 },
-    { name: 'Week 4', velocity: 22, friction: 4, risk: 2 },
-    { name: 'Week 5', velocity: 28, friction: 3, risk: 1 },
-    { name: 'Week 6 (Proj)', velocity: 34, friction: 2, risk: 1 },
-  ];
+  const [analytics, setAnalytics] = useState(null);
+  const [decisions, setDecisions] = useState([]);
+  const [timeline, setTimeline] = useState([]);
 
+  useEffect(() => {
+    api.get('/analytics')
+      .then(res => setAnalytics(res.data))
+      .catch(err => console.error('Failed to fetch analytics', err));
+
+    api.get('/decisions')
+      .then(res => setDecisions(res.data))
+      .catch(err => console.error('Failed to fetch decisions', err));
+
+    api.get('/analytics/timeline')
+      .then(res => setTimeline(res.data))
+      .catch(err => console.error('Failed to fetch timeline', err));
+  }, []);
+
+  // Compute stats dynamically
+  const totalDec = analytics?.totalDecisions || 0;
+  const finalizedDec = analytics?.finalizedDecisions || 0;
+  const pendingDec = analytics?.pendingDecisions || 0;
+  const partRate = parseFloat(analytics?.participationRate || 0);
+
+  const govScore = totalDec > 0 ? Math.min(100, Math.round(70 + (finalizedDec / totalDec) * 20 + (partRate / 100) * 10)) : 94;
+  const velocity = totalDec > 0 ? (totalDec / 30).toFixed(1) : 0;
+  const activeNodes = totalDec - finalizedDec;
+
+  // Forecast Data
+  const last7Days = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    return d.toISOString().split('T')[0];
+  }).reverse();
+
+  const forecastData = last7Days.map(dateStr => {
+    const count = decisions.filter(d => d.createdAt && d.createdAt.split('T')[0] === dateStr).length;
+    const dateObj = new Date(dateStr);
+    const label = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    return {
+      name: label,
+      velocity: count,
+      friction: Math.max(0, 2 - count)
+    };
+  });
+
+  // Org Health Radar Data
   const orgHealthData = [
-    { subject: 'Consensus', A: 120, fullMark: 150 },
-    { subject: 'Velocity', A: 98, fullMark: 150 },
-    { subject: 'Compliance', A: 140, fullMark: 150 },
-    { subject: 'Clarity', A: 85, fullMark: 150 },
-    { subject: 'Retention', A: 130, fullMark: 150 },
+    { subject: 'Consensus', A: parseFloat(analytics?.avgConsensus || 80), fullMark: 100 },
+    { subject: 'Participation', A: partRate || 70, fullMark: 100 },
+    { subject: 'Completion', A: totalDec > 0 ? Math.round((finalizedDec / totalDec) * 100) : 100, fullMark: 100 },
+    { subject: 'Speed', A: 85, fullMark: 100 },
+    { subject: 'Security', A: 95, fullMark: 100 },
   ];
 
-  const liveFeed = [
-    { time: '10:42 AM', type: 'VOTE_SECURED', msg: 'Q3 Roadmap ratified with 92% consensus.' },
-    { time: '10:38 AM', type: 'AI_ALERT', msg: 'Friction detected in Engineering hiring pipeline.' },
-    { time: '10:15 AM', type: 'NODE_CREATED', msg: 'New strategic decision initiated by CFO.' },
-    { time: '09:55 AM', type: 'POLICY_UPDATE', msg: 'Travel policy automatically updated via ledger.' },
-  ];
+  // Live network feed
+  const liveFeedMapped = timeline.map(act => {
+    let type = 'NODE_CREATED';
+    if (act.action === 'VOTED') type = 'VOTE_SECURED';
+    else if (act.action === 'FINALIZED_DECISION') type = 'POLICY_UPDATE';
+    
+    return {
+      type,
+      msg: act.details || `${act.user?.name || 'Someone'} performed ${act.action} on ${act.decision?.title || 'a decision'}`,
+      time: act.createdAt ? new Date(act.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Just now'
+    };
+  });
+
+  const fallbackFeed = decisions.slice(0, 5).map(d => ({
+    type: d.status === 'Finalized' || d.status === 'approved' ? 'POLICY_UPDATE' : 'NODE_CREATED',
+    msg: `${d.proposedBy?.name || d.creatorId?.name || 'User'} created decision "${d.title}"`,
+    time: d.createdAt ? new Date(d.createdAt).toLocaleDateString() : 'Recent'
+  }));
+
+  const liveFeed = liveFeedMapped.length > 0 ? liveFeedMapped : fallbackFeed;
 
   return (
     <div className="p-8 pb-32 bg-background text-on-surface">
       
       {/* Top KPIs */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 font-sans">
         <div className="bg-surface-container border border-outline-variant/30 p-5 rounded-xl shadow-lg relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-16 -mt-16 group-hover:scale-110 transition-transform"></div>
-          <div className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60 mb-1">Intelligence Score</div>
-          <div className="text-4xl font-display text-on-surface font-geist font-bold">94<span className="text-sm text-primary ml-1">/100</span></div>
-          <div className="mt-4 text-xs text-green-500 flex items-center"><span className="material-symbols-outlined text-[14px] mr-1">trending_up</span> +2.4% vs last month</div>
+          <div className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60 mb-1">Governance Score</div>
+          <div className="text-4xl font-display text-on-surface font-geist font-bold">{govScore}<span className="text-sm text-primary ml-1">/100</span></div>
+          <div className="mt-4 text-xs text-green-500 flex items-center"><span className="material-symbols-outlined text-[14px] mr-1">trending_up</span> Dynamic health metric</div>
         </div>
         <div className="bg-surface-container border border-outline-variant/30 p-5 rounded-xl shadow-lg relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-500/5 rounded-bl-full -mr-16 -mt-16 group-hover:scale-110 transition-transform"></div>
           <div className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60 mb-1">Pending Bottlenecks</div>
-          <div className="text-4xl font-display text-on-surface font-geist font-bold">3</div>
-          <div className="mt-4 text-xs text-yellow-400 flex items-center"><span className="material-symbols-outlined text-[14px] mr-1">warning</span> Legal Dept (EU) delayed</div>
+          <div className="text-4xl font-display text-on-surface font-geist font-bold">{pendingDec}</div>
+          <div className="mt-4 text-xs text-yellow-400 flex items-center"><span className="material-symbols-outlined text-[14px] mr-1">warning</span> Action required</div>
         </div>
         <div className="bg-surface-container border border-outline-variant/30 p-5 rounded-xl shadow-lg relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-bl-full -mr-16 -mt-16 group-hover:scale-110 transition-transform"></div>
           <div className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60 mb-1">Decision Velocity</div>
-          <div className="text-4xl font-display text-on-surface font-geist font-bold">1.8<span className="text-sm text-purple-400 ml-1">/hr</span></div>
-          <div className="mt-4 text-xs text-purple-400 flex items-center"><span className="material-symbols-outlined text-[14px] mr-1">speed</span> Optimal throughput</div>
+          <div className="text-4xl font-display text-on-surface font-geist font-bold">{velocity}<span className="text-sm text-purple-400 ml-1">/day</span></div>
+          <div className="mt-4 text-xs text-purple-400 flex items-center"><span className="material-symbols-outlined text-[14px] mr-1">speed</span> Average throughput</div>
         </div>
         <div className="bg-surface-container border border-outline-variant/30 p-5 rounded-xl shadow-lg relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/5 rounded-bl-full -mr-16 -mt-16 group-hover:scale-110 transition-transform"></div>
           <div className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60 mb-1">Active Nodes</div>
-          <div className="text-4xl font-display text-on-surface font-geist font-bold">142</div>
-          <div className="mt-4 text-xs text-on-surface-variant/60 flex items-center"><span className="material-symbols-outlined text-[14px] mr-1">device_hub</span> 12 highly collaborative</div>
+          <div className="text-4xl font-display text-on-surface font-geist font-bold">{activeNodes}</div>
+          <div className="mt-4 text-xs text-on-surface-variant/60 flex items-center"><span className="material-symbols-outlined text-[14px] mr-1">device_hub</span> Out of {totalDec} total</div>
         </div>
       </div>
 
@@ -105,14 +157,14 @@ export default function DashboardPage() {
             <div className="w-1/3">
               <h3 className="font-display text-lg text-on-surface">Organizational Health</h3>
               <p className="text-xs text-on-surface-variant/60 mb-6">Radar visualization of structural integrity across 5 core governance metrics.</p>
-              <div className="space-y-4">
+              <div className="space-y-4 font-sans">
                 <div>
-                  <div className="flex justify-between text-[10px] uppercase font-bold text-on-surface-variant/80 mb-1"><span>Compliance</span><span className="text-green-500">93%</span></div>
-                  <div className="h-1 bg-surface-container-high rounded-full overflow-hidden"><div className="h-full bg-green-500 w-[93%]"></div></div>
+                  <div className="flex justify-between text-[10px] uppercase font-bold text-on-surface-variant/80 mb-1"><span>Consensus</span><span className="text-green-500">{analytics?.avgConsensus || 80}%</span></div>
+                  <div className="h-1 bg-surface-container-high rounded-full overflow-hidden"><div className="h-full bg-green-500" style={{ width: `${analytics?.avgConsensus || 80}%` }}></div></div>
                 </div>
                 <div>
-                  <div className="flex justify-between text-[10px] uppercase font-bold text-on-surface-variant/80 mb-1"><span>Clarity</span><span className="text-yellow-500">56%</span></div>
-                  <div className="h-1 bg-surface-container-high rounded-full overflow-hidden"><div className="h-full bg-yellow-500 w-[56%]"></div></div>
+                  <div className="flex justify-between text-[10px] uppercase font-bold text-on-surface-variant/80 mb-1"><span>Participation</span><span className="text-yellow-500">{partRate || 70}%</span></div>
+                  <div className="h-1 bg-surface-container-high rounded-full overflow-hidden"><div className="h-full bg-yellow-500" style={{ width: `${partRate || 70}%` }}></div></div>
                 </div>
               </div>
             </div>
@@ -133,7 +185,7 @@ export default function DashboardPage() {
         <div className="space-y-8">
           
           {/* Live Global Feed */}
-          <div className="bg-surface-container border border-outline-variant/30 p-6 rounded-xl shadow-lg h-[300px] flex flex-col">
+          <div className="bg-surface-container border border-outline-variant/30 p-6 rounded-xl shadow-lg h-[300px] flex flex-col font-sans">
             <h3 className="font-display text-lg text-on-surface mb-6">Live Network Feed</h3>
             <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-4">
               {liveFeed.map((item, i) => (

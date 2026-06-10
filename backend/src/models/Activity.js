@@ -20,6 +20,21 @@ const activitySchema = new mongoose.Schema(
     details: {
       type: String, // e.g., "Sarah voted on Q3 Expansion"
     },
+    ledgerHash: {
+      type: String,
+      default: '',
+    },
+    blockchainTxHash: {
+      type: String,
+      default: '',
+    },
+    blockchainTimestamp: {
+      type: Date,
+    },
+    blockchainAnchored: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

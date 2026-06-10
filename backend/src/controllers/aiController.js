@@ -85,7 +85,7 @@ DecisionLedger is a collaborative decision-making platform that helps teams and 
 Always be helpful. If a user asks something outside the app, politely redirect them to app-related topics. Keep responses short and scannable — use bullet points when listing steps.`;
 
 // ─── Helper: call Gemini REST API ─────────────────────────────────────────────
-function callGeminiAPI(conversationHistory) {
+function callGeminiAPI(conversationHistory, systemPrompt) {
   return new Promise((resolve, reject) => {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
@@ -94,7 +94,7 @@ function callGeminiAPI(conversationHistory) {
 
     const requestBody = JSON.stringify({
       system_instruction: {
-        parts: [{ text: SYSTEM_PROMPT }],
+        parts: [{ text: systemPrompt || SYSTEM_PROMPT }],
       },
       contents: conversationHistory,
       generationConfig: {
@@ -168,10 +168,10 @@ const chat = async (req, res) => {
     // Validate history format
     const validatedHistory = safeHistory.filter(
       (entry) =>
-        entry &&
-        (entry.role === 'user' || entry.role === 'model') &&
-        Array.isArray(entry.parts) &&
-        entry.parts.every((p) => typeof p.text === 'string')
+          entry &&
+          (entry.role === 'user' || entry.role === 'model') &&
+          Array.isArray(entry.parts) &&
+          entry.parts.every((p) => typeof p.text === 'string')
     );
 
     // Append the new user message
@@ -180,7 +180,32 @@ const chat = async (req, res) => {
       { role: 'user', parts: [{ text: message.trim() }] },
     ];
 
-    const aiText = await callGeminiAPI(conversationHistory);
+    // Build dynamic system instructions containing developer info and user profile data if logged in
+    let userContext = `
+## Guest User Information
+You are chatting with a guest user who is not logged in. Advise them to sign up or log in to access team tools, cast decisions, view company details, etc.
+`;
+    if (req.user) {
+      userContext = `
+## Logged-in User Information
+- **User Name**: ${req.user.name}
+- **User Email**: ${req.user.email}
+- **Company/Organization Name**: ${req.user.companyName || 'Not Set'}
+
+You must answer any questions about the logged-in user, their company, or organization using these real-time profile details.
+`;
+    }
+
+    const systemPrompt = `${SYSTEM_PROMPT}
+
+## Developer Information
+- **Developer**: Ram Vishwakarma
+Always state that the developer is Ram Vishwakarma if the user asks about the creator or developer of the application.
+
+${userContext}
+`;
+
+    const aiText = await callGeminiAPI(conversationHistory, systemPrompt);
 
     return res.json({
       reply: aiText,

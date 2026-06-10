@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import api from '../../services/api';
 import { Link } from 'react-router-dom';
 import * as THREE from 'three';
 import { gsap } from 'gsap';
@@ -130,6 +131,14 @@ export default function LandingPage() {
       });
     }
   };
+
+  const [stats, setStats] = useState(null);
+
+  useEffect(() => {
+    api.get('/public/stats')
+      .then(res => setStats(res.data))
+      .catch(err => console.error('Failed to fetch public stats', err));
+  }, []);
 
   return (
     <div className="bg-surface font-body min-h-screen text-on-surface relative">
@@ -294,11 +303,15 @@ export default function LandingPage() {
           {/* Social Proof / Metrics */}
           <div className="flex justify-center gap-16 text-on-surface/60 text-xs uppercase tracking-widest border-t border-black/5 pt-8 max-w-md mx-auto">
             <div className="reveal-item">
-              <span className="font-display text-2xl font-semibold block text-on-surface mb-1">10k+</span>
+              <span className="font-display text-2xl font-semibold block text-on-surface mb-1">
+                {stats?.totalDecisions !== undefined ? `${stats.totalDecisions}` : '10+'}
+              </span>
               Decisions Made
             </div>
             <div className="reveal-item">
-              <span className="font-display text-2xl font-semibold block text-on-surface mb-1">500+</span>
+              <span className="font-display text-2xl font-semibold block text-on-surface mb-1">
+                {stats?.totalTeams !== undefined ? `${stats.totalTeams}` : '5+'}
+              </span>
               Active Teams
             </div>
           </div>

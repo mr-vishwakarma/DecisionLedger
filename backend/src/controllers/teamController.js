@@ -22,7 +22,28 @@ exports.createInvite = async (req, res) => {
       role: role || 'member'
     });
 
+    const inviteHashData = JSON.stringify({
+      email: invite.email,
+      teamId: invite.teamId.toString(),
+      inviterId: invite.inviterId.toString(),
+      role: invite.role,
+      token: invite.token,
+      expiresAt: invite.expiresAt.toISOString()
+    });
+    invite.ledgerHash = crypto.createHash('sha256').update(inviteHashData).digest('hex');
+
     await invite.save();
+
+    const blockchainService = require('../services/blockchainService');
+    blockchainService.anchorRecord("Invite", invite._id.toString(), invite.ledgerHash).then(async (receipt) => {
+      if (receipt) {
+        await Invite.findByIdAndUpdate(invite._id, {
+          blockchainTxHash: receipt.txHash,
+          blockchainTimestamp: receipt.timestamp,
+          blockchainAnchored: true
+        });
+      }
+    }).catch(err => console.error("Blockchain anchoring error for Invite:", err));
 
     // Since we are not integrating a real email provider (like SendGrid or Nodemailer) yet,
     // we will just return the invite link in the response for the UI to display.

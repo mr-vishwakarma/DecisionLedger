@@ -3,7 +3,7 @@ const { ethers } = require("ethers");
 const fs = require("fs");
 const path = require("path");
 
-const contractJson = require("./build/DecisionLedgerAudit.json");
+const contractJson = require("./build/UniversalLedgerAudit.json");
 
 const rpcUrl = process.env.POLYGON_RPC_URL || "https://polygon-amoy.infura.io/v3/3f766d1be32544f7912d12723a7ecb99";
 let privateKey = process.env.POLYGON_PRIVATE_KEY;

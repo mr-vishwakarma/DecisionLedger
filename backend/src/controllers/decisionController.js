@@ -1,5 +1,7 @@
 const Decision = require('../models/Decision');
 const blockchainService = require('../services/blockchainService');
+const Activity = require('../models/Activity');
+
 
 exports.createDecision = async (req, res) => {
   try {
@@ -30,10 +32,20 @@ exports.createDecision = async (req, res) => {
       decisionData.teamId = teamId;
     }
 
-    const decision = new Decision(decisionData);
-
     await decision.save();
     console.log('Decision successfully saved in DB:', decision);
+    
+    try {
+      await Activity.create({
+        user: req.user._id,
+        action: 'CREATED_DECISION',
+        decision: decision._id,
+        details: `${req.user.name} proposed decision: "${title}"`
+      });
+    } catch (actErr) {
+      console.error('Failed to create activity log:', actErr);
+    }
+
     res.status(201).json(decision);
   } catch (error) {
     console.error('Error creating decision in controller:', error);
@@ -149,6 +161,17 @@ exports.castVote = async (req, res) => {
 
     await decision.save();
     
+    try {
+      await Activity.create({
+        user: userId,
+        action: 'VOTED',
+        decision: decisionId,
+        details: `${req.user.name} cast a vote (${vote}) on "${decision.title}"`
+      });
+    } catch (actErr) {
+      console.error('Failed to create activity log for vote:', actErr);
+    }
+    
     const updatedDecision = await Decision.findById(decisionId)
       .populate('creatorId', 'name email avatar')
       .populate('proposedBy', 'name email avatar')
@@ -207,8 +230,20 @@ exports.finalizeDecision = async (req, res) => {
 
     await decision.save();
 
+    try {
+      await Activity.create({
+        user: userId,
+        action: 'FINALIZED_DECISION',
+        decision: decisionId,
+        details: `${req.user.name} finalized decision "${decision.title}" as: ${status}`,
+        ledgerHash: decision.ledgerHash
+      });
+    } catch (actErr) {
+      console.error('Failed to create activity log for finalization:', actErr);
+    }
+
     // Anchor to blockchain asynchronously (to prevent blocking response, but update DB upon completion)
-    blockchainService.anchorDecision(decisionId, decision.ledgerHash).then(async (receipt) => {
+    blockchainService.anchorRecord("Decision", decisionId, decision.ledgerHash).then(async (receipt) => {
       if (receipt) {
         await Decision.findByIdAndUpdate(decisionId, {
           blockchainTxHash: receipt.txHash,

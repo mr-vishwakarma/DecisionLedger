@@ -2,13 +2,13 @@ const path = require("path");
 const fs = require("fs");
 const solc = require("solc");
 
-const contractPath = path.resolve(__dirname, "contracts", "DecisionLedgerAudit.sol");
+const contractPath = path.resolve(__dirname, "contracts", "UniversalLedgerAudit.sol");
 const source = fs.readFileSync(contractPath, "utf8");
 
 const input = {
   language: "Solidity",
   sources: {
-    "DecisionLedgerAudit.sol": {
+    "UniversalLedgerAudit.sol": {
       content: source,
     },
   },
@@ -35,14 +35,14 @@ if (!fs.existsSync(buildPath)) {
   fs.mkdirSync(buildPath);
 }
 
-const contract = output.contracts["DecisionLedgerAudit.sol"]["DecisionLedgerAudit"];
+const contract = output.contracts["UniversalLedgerAudit.sol"]["UniversalLedgerAudit"];
 
 fs.writeFileSync(
-  path.resolve(buildPath, "DecisionLedgerAudit.json"),
+  path.resolve(buildPath, "UniversalLedgerAudit.json"),
   JSON.stringify({
     abi: contract.abi,
     bytecode: contract.evm.bytecode.object,
   }, null, 2)
 );
 
-console.log("Compilation successful! Saved to build/DecisionLedgerAudit.json");
+console.log("Compilation successful! Saved to build/UniversalLedgerAudit.json");

@@ -10,7 +10,7 @@ try {
   console.log("Blockchain Service: No contract address found. Run deploy_contract.cjs first to enable blockchain anchoring.");
 }
 
-const contractJson = require("../../build/DecisionLedgerAudit.json");
+const contractJson = require("../../build/UniversalLedgerAudit.json");
 
 const rpcUrl = process.env.POLYGON_RPC_URL || "https://polygon-amoy.infura.io/v3/3f766d1be32544f7912d12723a7ecb99";
 let privateKey = process.env.POLYGON_PRIVATE_KEY;
@@ -39,13 +39,13 @@ if (privateKey && contractAddress) {
 }
 
 /**
- * Anchor a decision's hash onto the blockchain.
- * @param {string} decisionId 
- * @param {string} dataHash 
+ * Anchor a record's hash onto the blockchain.
+ * @param {string} recordType - e.g., "Decision", "Activity", "Invite"
+ * @param {string} recordId - The MongoDB document ID
+ * @param {string} dataHash - The SHA-256 hash
  * @returns {Promise<{txHash: string, timestamp: Date} | null>}
  */
-async function anchorDecision(decisionId, dataHash) {
-  // If not fully configured on startup, try re-initializing (in case deployment happened while server was running)
+async function anchorRecord(recordType, recordId, dataHash) {
   if (!contract || !wallet) {
     try {
       const addressConfig = require("../../build/contract_address.json");
@@ -65,31 +65,32 @@ async function anchorDecision(decisionId, dataHash) {
   }
 
   try {
-    console.log(`Blockchain Service: Anchoring decision ${decisionId} with hash ${dataHash}...`);
-    const tx = await contract.anchorDecision(decisionId, dataHash);
+    console.log(`Blockchain Service: Anchoring ${recordType} ${recordId} with hash ${dataHash}...`);
+    const tx = await contract.anchorRecord(recordType, recordId, dataHash);
     console.log(`Blockchain Service: Transaction sent: ${tx.hash}. Waiting for confirmation...`);
     const receipt = await tx.wait();
     
     const block = await wallet.provider.getBlock(receipt.blockNumber);
     const timestamp = new Date(block.timestamp * 1000);
     
-    console.log(`Blockchain Service: Successfully anchored decision ${decisionId}!`);
+    console.log(`Blockchain Service: Successfully anchored ${recordType} ${recordId}!`);
     return {
       txHash: tx.hash,
       timestamp
     };
   } catch (err) {
-    console.error(`Blockchain Service: Error anchoring decision ${decisionId}:`, err);
+    console.error(`Blockchain Service: Error anchoring ${recordType} ${recordId}:`, err);
     return null;
   }
 }
 
 /**
- * Verify a decision's hash on-chain (read-only, does not need private key or signer).
- * @param {string} decisionId 
+ * Verify a record's hash on-chain (read-only).
+ * @param {string} recordType 
+ * @param {string} recordId 
  * @returns {Promise<string>}
  */
-async function getDecisionHashOnChain(decisionId) {
+async function getRecordHashOnChain(recordType, recordId) {
   let addr = contractAddress;
   if (!addr) {
     try {
@@ -103,15 +104,15 @@ async function getDecisionHashOnChain(decisionId) {
   try {
     const provider = new ethers.JsonRpcProvider(rpcUrl);
     const readOnlyContract = new ethers.Contract(addr, contractJson.abi, provider);
-    const hash = await readOnlyContract.getDecisionHash(decisionId);
+    const hash = await readOnlyContract.getRecordHash(recordType, recordId);
     return hash;
   } catch (err) {
-    console.error(`Blockchain Service: Error verifying decision ${decisionId}:`, err);
+    console.error(`Blockchain Service: Error verifying ${recordType} ${recordId}:`, err);
     return "";
   }
 }
 
 module.exports = {
-  anchorDecision,
-  getDecisionHashOnChain
+  anchorRecord,
+  getRecordHashOnChain
 };

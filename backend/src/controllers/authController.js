@@ -288,6 +288,7 @@ const getUserProfile = async (req, res) => {
         name: user.name,
         email: user.email,
         isEmailVerified: user.isEmailVerified,
+        companyName: user.companyName,
         avatar: user.avatar,
       });
     } else {
@@ -414,6 +415,36 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
+
+// @desc    Update Company Name
+// @route   PATCH /api/auth/profile/company
+// @access  Private
+const updateCompanyName = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const { companyName } = req.body;
+    if (typeof companyName !== 'string' || !companyName.trim()) {
+      return res.status(400).json({ message: 'Valid companyName is required' });
+    }
+    user.companyName = companyName.trim();
+    await user.save();
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isEmailVerified: user.isEmailVerified,
+      avatar: user.avatar,
+      companyName: user.companyName,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 module.exports = {
   registerUser,
   loginUser,
@@ -425,4 +456,6 @@ module.exports = {
   forgotPassword,
   resetPassword,
   refreshToken,
+  updateCompanyName,
 };
+

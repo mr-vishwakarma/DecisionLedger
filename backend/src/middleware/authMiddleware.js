@@ -30,4 +30,25 @@ const protect = async (req, res, next) => {
   }
 };
 
-module.exports = { protect };
+const optionalProtect = async (req, res, next) => {
+  let token;
+
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    try {
+      token = req.headers.authorization.split(' ')[1];
+      const secret = process.env.ACCESS_TOKEN_SECRET || process.env.JWT_SECRET || 'fallback_access_secret';
+      const decoded = jwt.verify(token, secret);
+
+      req.user = await User.findById(decoded.id).select('-password');
+    } catch (error) {
+      console.warn(`Optional auth token verification failed: ${error.message}`);
+    }
+  }
+  next();
+};
+
+module.exports = { protect, optionalProtect };
+
