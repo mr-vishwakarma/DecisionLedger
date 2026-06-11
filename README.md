@@ -223,5 +223,8 @@ contract DecisionLedgerAudit {
 
 ---
 
+## 👥 Leader
+- **Mayur Vishwakarma** - *Developer*
+
 ## 👥 Contributors
-- **Ram Vishwakarma** - *Lead Architect & Engineer*
+- **Ram Vishwakarma** - *Lead Architect & Designer*
