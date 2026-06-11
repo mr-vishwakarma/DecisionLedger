@@ -87,7 +87,7 @@ export default function AIChatWidget() {
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
-  const apiBase = import.meta.env.VITE_API_URL || '';
+  const apiBase = (import.meta.env.VITE_API_URL || '').replace(/\/api\/?$/, '');
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

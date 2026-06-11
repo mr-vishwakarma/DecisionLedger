@@ -5,6 +5,8 @@ const STORAGE_KEY = 'decisionledger_user';
 const TOKEN_KEY = 'decisionledger_token';
 const REFRESH_TOKEN_KEY = 'decisionledger_refresh_token';
 
+const apiBase = (import.meta.env.VITE_API_URL || '').replace(/\/api\/?$/, '');
+
 function readStoredUser() {
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
@@ -21,7 +23,6 @@ export function AuthProvider({ children }) {
   const [showAiChat, setShowAiChat] = useState(false);
 
   const loginUser = useCallback(async (email, password) => {
-    const apiBase = import.meta.env.VITE_API_URL || '';
     const res = await fetch(`${apiBase}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -53,7 +54,6 @@ export function AuthProvider({ children }) {
   }, []);
 
   const registerUser = useCallback(async (name, email, password) => {
-    const apiBase = import.meta.env.VITE_API_URL || '';
     const res = await fetch(`${apiBase}/api/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -85,7 +85,6 @@ export function AuthProvider({ children }) {
   }, []);
 
   const googleLoginUser = useCallback(async (credential) => {
-    const apiBase = import.meta.env.VITE_API_URL || '';
     const res = await fetch(`${apiBase}/api/auth/google/callback`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -117,7 +116,6 @@ export function AuthProvider({ children }) {
   }, []);
 
   const githubLoginUser = useCallback(async (code) => {
-    const apiBase = import.meta.env.VITE_API_URL || '';
     const res = await fetch(`${apiBase}/api/auth/github/callback`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -157,7 +155,6 @@ export function AuthProvider({ children }) {
   }, []);
 
   const updateCompanyName = async (companyName) => {
-    const apiBase = import.meta.env.VITE_API_URL || '';
     const res = await fetch(`${apiBase}/api/auth/profile/company`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },

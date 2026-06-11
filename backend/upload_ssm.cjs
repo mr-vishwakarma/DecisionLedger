@@ -12,7 +12,9 @@ const params = [
   { Name: "/decisionledger/prod/EMAIL_USER", Value: process.env.EMAIL_USER, Type: "SecureString" },
   { Name: "/decisionledger/prod/EMAIL_PASS", Value: process.env.EMAIL_PASS, Type: "SecureString" },
   { Name: "/decisionledger/prod/GOOGLE_CLIENT_ID", Value: process.env.GOOGLE_CLIENT_ID, Type: "SecureString" },
-  { Name: "/decisionledger/prod/GOOGLE_CLIENT_SECRET", Value: process.env.GOOGLE_CLIENT_SECRET, Type: "SecureString" }
+  { Name: "/decisionledger/prod/GOOGLE_CLIENT_SECRET", Value: process.env.GOOGLE_CLIENT_SECRET, Type: "SecureString" },
+  { Name: "/decisionledger/prod/POLYGON_PRIVATE_KEY", Value: process.env.POLYGON_PRIVATE_KEY, Type: "SecureString" },
+  { Name: "/decisionledger/prod/GEMINI_API_KEY", Value: process.env.GEMINI_API_KEY, Type: "SecureString" }
 ];
 
 async function upload() {
