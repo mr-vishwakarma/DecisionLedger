@@ -1,12 +1,12 @@
-// SPDX-License-Identifier: MIT
+
 pragma solidity ^0.8.20;
 
 contract UniversalLedgerAudit {
     address public owner;
     
-    // Mapping: recordType -> recordId -> dataHash
+    
     mapping(string => mapping(string => string)) private recordHashes;
-    // Mapping: recordType -> recordId -> timestamp
+    
     mapping(string => mapping(string => uint256)) private anchorTimestamps;
 
     event RecordAnchored(string indexed recordType, string indexed recordId, string dataHash, uint256 timestamp);

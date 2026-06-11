@@ -84,12 +84,7 @@ async function anchorRecord(recordType, recordId, dataHash) {
   }
 }
 
-/**
- * Verify a record's hash on-chain (read-only).
- * @param {string} recordType 
- * @param {string} recordId 
- * @returns {Promise<string>}
- */
+
 async function getRecordHashOnChain(recordType, recordId) {
   let addr = contractAddress;
   if (!addr) {

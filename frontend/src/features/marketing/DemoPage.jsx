@@ -19,7 +19,7 @@ export default function DemoPage() {
     <div className="min-h-screen bg-surface text-on-surface font-body relative overflow-x-hidden">
       <div className="noise-overlay"></div>
 
-      {/* Navigation */}
+      
       <header className="sticky top-0 z-50 glass-nav border-b border-outline/5 bg-surface/20 backdrop-blur-xl">
         <nav className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-6">
           <Link to="/" className="font-display text-2xl tracking-tighter text-primary font-medium">
@@ -31,7 +31,7 @@ export default function DemoPage() {
         </nav>
       </header>
 
-      {/* Main Content */}
+      
       <main className="mx-auto max-w-[1000px] px-6 py-16 lg:py-24 relative z-10 flex flex-col items-center">
         <span className="font-body text-xs uppercase tracking-[0.4em] opacity-60 mb-6 text-center">
           Overview & Walkthrough
@@ -43,7 +43,7 @@ export default function DemoPage() {
           See how sovereign organizations capture decision context, handle stakeholder weighted voting, and generate cryptographic audit trails in real-time.
         </p>
 
-        {/* Video Placeholder Container (Brutalist Style) */}
+        
         <div className="w-full aspect-video bg-[#ebe7e6] border-2 border-black shadow-[8px_8px_0px_#000000] flex flex-col items-center justify-center p-8 text-center mb-16 rounded-sm">
           <span className="material-symbols-outlined text-6xl mb-6 animate-pulse text-primary">play_circle</span>
           <h2 className="font-display text-3xl mb-4 font-semibold text-primary">Video Walkthrough Coming Soon</h2>
@@ -51,7 +51,7 @@ export default function DemoPage() {
             We are currently recording our platform demo, covering workspace settings, active ledgers, audit logs, and security protocols.
           </p>
 
-          {/* Inline Subscribe form */}
+          
           <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 w-full max-w-md justify-center">
             <input
               type="email"

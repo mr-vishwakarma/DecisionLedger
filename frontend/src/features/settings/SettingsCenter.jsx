@@ -66,7 +66,7 @@ export default function SettingsCenter() {
   return (
     <div className="flex h-full bg-background overflow-hidden relative">
       
-      {/* Sidebar Navigation */}
+      
       <motion.aside
         initial={{ width: 280 }}
         animate={{ width: isSidebarOpen ? 280 : 80 }}
@@ -138,7 +138,7 @@ export default function SettingsCenter() {
         </div>
       </motion.aside>
 
-      {/* Main Configuration Area */}
+      
       <main className="flex-1 overflow-y-auto relative h-full bg-surface">
         <div className="noise-overlay pointer-events-none absolute inset-0 z-0 mix-blend-overlay opacity-[0.03]"></div>
         <div className="max-w-6xl mx-auto p-8 relative z-10">

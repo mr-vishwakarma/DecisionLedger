@@ -29,7 +29,7 @@ export default function EntropyDash() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full">
-      {/* 1. Organizational Entropy Engine & Decision Drift Detection */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 flex flex-col justify-center"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -74,7 +74,7 @@ export default function EntropyDash() {
         </div>
       </motion.div>
 
-      {/* 2. Organizational Fragility Mapping */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 relative overflow-hidden"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -107,7 +107,7 @@ export default function EntropyDash() {
         </div>
       </motion.div>
 
-      {/* 3. Decision Fatigue Analytics */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -128,7 +128,7 @@ export default function EntropyDash() {
         </div>
       </motion.div>
 
-      {/* 4. Knowledge Decay Prediction */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}

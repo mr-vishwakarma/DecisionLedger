@@ -34,7 +34,7 @@ export default function AdvancedSimDash() {
   return (
     <div className="flex flex-col gap-6 h-[85vh]">
       
-      {/* 1 & 2. Scenario Branch Explorer & Counterfactual Engine */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 h-1/2 flex flex-col relative"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -90,10 +90,10 @@ export default function AdvancedSimDash() {
         </div>
       </motion.div>
 
-      {/* Grid for remaining 3 systems */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-1/2 min-h-[300px]">
         
-        {/* 3. Decision Forecast Engine */}
+        
         <motion.div 
           className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 flex flex-col"
           whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -123,7 +123,7 @@ export default function AdvancedSimDash() {
           </div>
         </motion.div>
 
-        {/* 4. Cascading Impact Engine */}
+        
         <motion.div 
           className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 relative overflow-hidden flex flex-col justify-center items-center"
           whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -142,7 +142,7 @@ export default function AdvancedSimDash() {
           </div>
         </motion.div>
 
-        {/* 5. Risk Propagation Mapping */}
+        
         <motion.div 
           className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 relative overflow-hidden"
           whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -153,10 +153,10 @@ export default function AdvancedSimDash() {
           
           <div className="relative z-10 grid grid-cols-5 gap-2 h-32">
             {Array.from({ length: 25 }).map((_, i) => {
-              // Create a localized heatmap effect
+              
               const distance = Math.abs((i % 5) - 2) + Math.abs(Math.floor(i / 5) - 2);
               const intensity = Math.max(0, 1 - distance * 0.25);
-              const color = `rgba(239, 68, 68, ${intensity})`; // Red
+              const color = `rgba(239, 68, 68, ${intensity})`; 
               
               return (
                 <div key={i} className="rounded-sm border border-white/5" style={{ backgroundColor: color }}>

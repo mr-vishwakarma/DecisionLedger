@@ -97,7 +97,7 @@ export function MyVotesPage() {
   return (
     <div className="flex flex-col h-full bg-background text-on-surface overflow-hidden p-8">
       
-      {/* Header */}
+      
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="font-display text-2xl text-on-surface">Voting Intelligence</h1>
@@ -112,7 +112,7 @@ export function MyVotesPage() {
       <div className="flex-1 overflow-y-auto custom-scrollbar">
         {activeTab === 'analytics' ? (
           <div className="space-y-6">
-            {/* Top Stats */}
+            
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-surface-container border border-outline-variant/30 p-5 rounded-xl flex items-center justify-between group">
                 <div>
@@ -146,10 +146,10 @@ export function MyVotesPage() {
               </div>
             </div>
 
-            {/* Charts */}
+            
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               
-              {/* Influence Trend */}
+              
               <div className="lg:col-span-2 bg-surface-container border border-outline-variant/30 p-6 rounded-xl">
                 <h3 className="font-display text-lg text-on-surface mb-6">Voting Power & Accuracy</h3>
                 <div className="h-[250px] min-h-[250px] min-w-0">
@@ -169,7 +169,7 @@ export function MyVotesPage() {
                 </div>
               </div>
 
-              {/* Distribution */}
+              
               <div className="bg-surface-container border border-outline-variant/30 p-6 rounded-xl flex flex-col items-center justify-center">
                 <h3 className="font-display text-lg text-on-surface mb-2 w-full text-left">Distribution</h3>
                 <div className="h-[200px] w-full min-h-[200px] min-w-0">
@@ -300,7 +300,7 @@ export function TeamPage() {
   return (
     <div className="flex flex-col h-full bg-background text-on-surface overflow-hidden p-8">
       
-      {/* Header */}
+      
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
         <div>
           <h1 className="font-display text-2xl text-on-surface">Organizational Intelligence</h1>
@@ -341,7 +341,7 @@ export function TeamPage() {
         {activeTab === 'graph' ? (
           <div className="flex flex-col h-full gap-6">
             
-            {/* Top Stats */}
+            
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 shrink-0">
               <div className="bg-surface-container border border-outline-variant/30 p-5 rounded-xl">
                 <div className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60 mb-1">Network Density</div>
@@ -361,7 +361,7 @@ export function TeamPage() {
               </div>
             </div>
 
-            {/* Interactive Org Graph */}
+            
             <div className="flex-1 bg-surface-container border border-outline-variant/30 rounded-xl relative overflow-hidden flex items-center justify-center min-h-[400px]">
               <div className="absolute top-6 left-6 text-[10px] font-mono text-on-surface-variant/60 uppercase tracking-widest">Live Collaboration Network</div>
               <svg className="absolute inset-0 w-full h-full">
@@ -371,13 +371,13 @@ export function TeamPage() {
                   </marker>
                 </defs>
                 
-                {/* Connections */}
+                
                 <line x1="50%" y1="30%" x2="30%" y2="60%" stroke="var(--color-outline-variant)" strokeWidth="2" opacity="0.3" markerEnd="url(#arrowhead)" />
                 <line x1="50%" y1="30%" x2="70%" y2="60%" stroke="var(--color-outline-variant)" strokeWidth="2" opacity="0.3" markerEnd="url(#arrowhead)" />
                 <line x1="30%" y1="60%" x2="50%" y2="80%" stroke="rgba(59,130,246,0.3)" strokeWidth="2" strokeDasharray="4,4" />
                 <line x1="70%" y1="60%" x2="50%" y2="80%" stroke="rgba(59,130,246,0.3)" strokeWidth="2" strokeDasharray="4,4" />
 
-                {/* Nodes */}
+                
                 <g className="cursor-pointer group">
                   <circle cx="50%" cy="30%" r="30" className="fill-surface-container stroke-blue-500 stroke-2 group-hover:fill-blue-500/10 transition-colors" />
                   <text x="50%" y="30%" textAnchor="middle" dy=".3em" className="fill-on-surface text-xs font-bold">Admin</text>
@@ -477,7 +477,7 @@ export function ProfilePage() {
       setProfile(res.data);
       toast.success('Profile updated successfully!');
       
-      // Update local storage so changes reflect elsewhere instantly
+      
       const stored = window.localStorage.getItem('decisionledger_user');
       if (stored) {
         const parsed = JSON.parse(stored);

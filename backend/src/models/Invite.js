@@ -32,7 +32,7 @@ const inviteSchema = new mongoose.Schema({
   expiresAt: {
     type: Date,
     required: true,
-    default: () => new Date(+new Date() + 7 * 24 * 60 * 60 * 1000) // 7 days from now
+    default: () => new Date(+new Date() + 7 * 24 * 60 * 60 * 1000) 
   },
   ledgerHash: {
     type: String,
@@ -51,7 +51,7 @@ const inviteSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-// Automatically delete expired invites
+
 inviteSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 module.exports = mongoose.model('Invite', inviteSchema);

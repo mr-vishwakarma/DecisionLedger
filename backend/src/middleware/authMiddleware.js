@@ -19,7 +19,7 @@ const protect = async (req, res, next) => {
       }
       return next();
     } catch (error) {
-      // Don't print the whole stack trace for an expired token, just log a warning
+      
       console.warn(`Auth failed: ${error.message}`);
       return res.status(401).json({ message: 'Not authorized, token failed' });
     }

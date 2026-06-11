@@ -10,7 +10,7 @@ export default function DashboardLayout() {
   const mainRef = useRef(null);
   const { user, showAiChat, setShowAiChat } = useAuth();
 
-  // Global Keybindings
+  
   useEffect(() => {
     const handleKeyDown = (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
@@ -45,7 +45,7 @@ export default function DashboardLayout() {
   return (
     <div className="flex h-screen overflow-hidden bg-background text-on-surface font-body">
       
-      {/* GLOBAL COMMAND PALETTE OVERLAY */}
+      
       <AnimatePresence>
         {commandPaletteOpen && (
           <motion.div 
@@ -83,7 +83,7 @@ export default function DashboardLayout() {
         )}
       </AnimatePresence>
 
-      {/* LEFT SIDEBAR NAVIGATION */}
+      
       <div className="w-64 border-r border-outline-variant/20 bg-surface-container flex flex-col hidden md:flex shrink-0">
         <Link to="/" className="h-16 flex items-center px-6 border-b border-outline-variant/20 cursor-pointer hover:bg-surface-container-high transition-colors">
           <span className="font-display font-bold text-xl text-on-surface">DecisionLedger</span>
@@ -125,10 +125,10 @@ export default function DashboardLayout() {
         </div>
       </div>
 
-      {/* MAIN CONTENT AREA */}
+      
       <div className="flex-1 flex flex-col h-full overflow-hidden">
         
-        {/* Top Header */}
+        
         <header className="h-16 border-b border-outline-variant/20 flex items-center justify-between px-8 bg-background/80 backdrop-blur-md z-10 shrink-0">
           <div className="flex items-center gap-4">
             <h1 className="font-display text-xl text-on-surface">
@@ -152,7 +152,7 @@ export default function DashboardLayout() {
           </div>
         </header>
 
-        {/* Scrollable Page Content */}
+        
         <main ref={mainRef} className="flex-1 overflow-y-auto custom-scrollbar relative">
           <Outlet />
         </main>

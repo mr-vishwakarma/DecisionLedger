@@ -20,7 +20,7 @@ export default function NarrativeGovernanceSection() {
   return (
     <div className="w-full flex flex-col items-center">
       
-      {/* SECTION 9: CUSTOMER STORIES (Narrative Flow) */}
+      
       <section className="min-h-screen w-full flex items-center justify-center relative bg-[#050505] px-margin-page border-b border-white/5 py-32">
         <div className="max-w-6xl w-full">
           <span className="font-body text-[10px] uppercase tracking-[0.3em] text-white/40 mb-6 block text-center">08 / The Narrative</span>
@@ -57,7 +57,7 @@ export default function NarrativeGovernanceSection() {
         </div>
       </section>
 
-      {/* SECTION 10 & 11: TEAM COLLAB & IMMUTABILITY */}
+      
       <section className="min-h-[80vh] w-full flex items-center justify-center relative bg-[#0a0a0a] px-margin-page border-b border-white/5 py-32">
         <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
           <div>
@@ -77,7 +77,7 @@ export default function NarrativeGovernanceSection() {
           <div className="relative h-[500px] bg-[#050505] border border-white/10 rounded-2xl p-6 overflow-hidden flex flex-col gap-4 shadow-2xl">
             <div className="absolute top-0 right-0 p-4"><span className="material-symbols-outlined text-green-500">lock</span></div>
             
-            {/* Simulated live feed */}
+            
             <motion.div initial={{ x: 50, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} className="bg-white/5 p-4 rounded-lg border border-white/10 mt-8">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-xs font-bold text-blue-400">@sarah_eng</span>
@@ -102,7 +102,7 @@ export default function NarrativeGovernanceSection() {
         </div>
       </section>
 
-      {/* SECTION 12 & 13: GOVERNANCE & TRUST */}
+      
       <section className="min-h-screen w-full flex flex-col items-center justify-center relative bg-[#050505] px-margin-page border-b border-white/5 py-32">
         <div className="max-w-6xl w-full text-center mb-16">
           <span className="font-body text-[10px] uppercase tracking-[0.3em] text-white/40 mb-6 block">11 / Compliance</span>
@@ -128,7 +128,7 @@ export default function NarrativeGovernanceSection() {
         </div>
       </section>
 
-      {/* SECTION 14: ENTERPRISE SCALE SIMULATION */}
+      
       <section className="min-h-[80vh] w-full flex flex-col items-center justify-center relative bg-[#020202] px-margin-page py-32">
         <div className="max-w-4xl w-full text-center">
           <span className="font-body text-[10px] uppercase tracking-[0.3em] text-white/40 mb-6 block">12 / Scalability</span>
@@ -163,7 +163,7 @@ export default function NarrativeGovernanceSection() {
               </div>
             </div>
 
-            {/* Simulated background density based on scale */}
+            
             <div className="absolute inset-0 pointer-events-none opacity-30" style={{
               backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.2) 1px, transparent 0)',
               backgroundSize: `${Math.max(4, 50 - (scaleUsers / 250))}px ${Math.max(4, 50 - (scaleUsers / 250))}px`

@@ -18,7 +18,7 @@ const activitySchema = new mongoose.Schema(
       required: true,
     },
     details: {
-      type: String, // e.g., "Sarah voted on Q3 Expansion"
+      type: String, 
     },
     ledgerHash: {
       type: String,

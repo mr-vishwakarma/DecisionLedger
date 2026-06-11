@@ -37,23 +37,23 @@ export default function CompanyNameModal() {
             transition={{ type: 'spring', damping: 25, stiffness: 350 }}
             className="w-full max-w-md bg-neutral-900 border border-white/10 rounded-2xl p-6 shadow-2xl relative overflow-hidden text-white font-sans"
           >
-            {/* Background ambient lighting */}
+            
             <div className="absolute top-0 left-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
             <div className="absolute bottom-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
             <div className="relative z-10 flex flex-col items-center text-center">
-              {/* Icon */}
+              
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center mb-6 shadow-lg shadow-blue-500/20">
                 <span className="material-symbols-outlined text-3xl text-white">domain</span>
               </div>
 
-              {/* Title & Desc */}
+              
               <h2 className="text-xl font-bold font-display tracking-tight mb-2">Welcome to DecisionLedger!</h2>
               <p className="text-sm text-neutral-400 mb-6">
                 Let's customize your experience. Please enter your workspace, company, or organization name below.
               </p>
 
-              {/* Form */}
+              
               <form onSubmit={handleSubmit} className="w-full text-left space-y-4">
                 <div>
                   <label htmlFor="company-name" className="block text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-2">

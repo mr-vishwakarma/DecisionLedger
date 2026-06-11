@@ -8,7 +8,7 @@ exports.createDecision = async (req, res) => {
     console.log('createDecision API called. Body:', req.body, 'User:', req.user);
     const { title, context, reasoning, optionsConsidered, priority, tags, category, teamId } = req.body;
     
-    // Validate required fields
+    
     if (!title || !context) {
       return res.status(400).json({ message: 'Title and context are required' });
     }
@@ -22,12 +22,12 @@ exports.createDecision = async (req, res) => {
       tags,
       category,
       creatorId: req.user._id,
-      proposedBy: req.user._id, // Set both for backward compatibility
+      proposedBy: req.user._id, 
       status: 'draft',
       votes: []
     };
 
-    // Only set teamId if a valid one was provided
+    
     if (teamId) {
       decisionData.teamId = teamId;
     }
@@ -60,7 +60,7 @@ exports.getDecisions = async (req, res) => {
         { creatorId: req.user._id },
         { proposedBy: req.user._id },
         { 'votes.userId': req.user._id }
-        // Note: Would add team check here once teams are fully implemented
+        
       ]
     })
       .populate('creatorId', 'name email avatar')
@@ -119,7 +119,7 @@ exports.castVote = async (req, res) => {
   try {
     let { vote, comment, choice, reasoning } = req.body;
     
-    // Map choice (Agree/Disagree/Abstain) to vote (approve/reject/abstain)
+    
     if (choice) {
       if (choice === 'Agree') vote = 'approve';
       else if (choice === 'Disagree') vote = 'reject';
@@ -141,16 +141,16 @@ exports.castVote = async (req, res) => {
       return res.status(404).json({ message: 'Decision not found' });
     }
 
-    // Check if user already voted
+    
     const existingVoteIndex = decision.votes.findIndex(v => v.userId.toString() === userId.toString());
     
     if (existingVoteIndex >= 0) {
-      // Update existing vote
+      
       decision.votes[existingVoteIndex].vote = vote;
       if (comment !== undefined) decision.votes[existingVoteIndex].comment = comment;
       decision.votes[existingVoteIndex].createdAt = Date.now();
     } else {
-      // Add new vote
+      
       decision.votes.push({
         userId,
         vote,
@@ -214,7 +214,7 @@ exports.finalizeDecision = async (req, res) => {
       return res.status(404).json({ message: 'Decision not found' });
     }
 
-    // Verify user is the proposer
+    
     const proposerId = decision.proposedBy || decision.creatorId;
     if (!proposerId || proposerId.toString() !== userId.toString()) {
       return res.status(403).json({ message: 'Only the proposer can finalize this decision' });
@@ -223,7 +223,7 @@ exports.finalizeDecision = async (req, res) => {
     decision.status = status;
     decision.finalConclusion = finalConclusion;
     
-    // Generate a cryptographic ledger hash (mocking the blockchain/ledger commit)
+    
     const crypto = require('crypto');
     const hashInput = `${decisionId}-${JSON.stringify(decision.votes)}-${finalConclusion}-${Date.now()}`;
     decision.ledgerHash = crypto.createHash('sha256').update(hashInput).digest('hex');
@@ -242,7 +242,7 @@ exports.finalizeDecision = async (req, res) => {
       console.error('Failed to create activity log for finalization:', actErr);
     }
 
-    // Anchor to blockchain asynchronously (to prevent blocking response, but update DB upon completion)
+    
     blockchainService.anchorRecord("Decision", decisionId, decision.ledgerHash).then(async (receipt) => {
       if (receipt) {
         await Decision.findByIdAndUpdate(decisionId, {

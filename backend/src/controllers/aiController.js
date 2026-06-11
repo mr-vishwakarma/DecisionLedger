@@ -1,6 +1,6 @@
 const https = require('https');
 
-// ─── System prompt ────────────────────────────────────────────────────────────
+
 const SYSTEM_PROMPT = `You are the AI Assistant for DecisionLedger — a smart decision management platform.
 Your job is to help users understand and use the app. Be friendly, concise, and accurate.
 
@@ -84,7 +84,7 @@ DecisionLedger is a collaborative decision-making platform that helps teams and 
 
 Always be helpful. If a user asks something outside the app, politely redirect them to app-related topics. Keep responses short and scannable — use bullet points when listing steps.`;
 
-// ─── Helper: call Gemini REST API ─────────────────────────────────────────────
+
 function callGeminiAPI(conversationHistory, systemPrompt) {
   return new Promise((resolve, reject) => {
     const apiKey = process.env.GEMINI_API_KEY;
@@ -127,7 +127,7 @@ function callGeminiAPI(conversationHistory, systemPrompt) {
         try {
           const parsed = JSON.parse(data);
 
-          // Handle API-level errors (e.g. invalid key, quota exceeded)
+          
           if (parsed.error) {
             return reject(new Error(parsed.error.message || 'Gemini API error'));
           }
@@ -149,7 +149,7 @@ function callGeminiAPI(conversationHistory, systemPrompt) {
   });
 }
 
-// ─── Controller ───────────────────────────────────────────────────────────────
+
 const chat = async (req, res) => {
   try {
     const { message, history = [] } = req.body;
@@ -162,10 +162,10 @@ const chat = async (req, res) => {
       return res.status(400).json({ message: 'Message too long (max 2000 characters)' });
     }
 
-    // Build conversation history for Gemini (keep last 10 exchanges = 20 messages)
+    
     const safeHistory = Array.isArray(history) ? history.slice(-20) : [];
 
-    // Validate history format
+    
     const validatedHistory = safeHistory.filter(
       (entry) =>
           entry &&
@@ -174,13 +174,13 @@ const chat = async (req, res) => {
           entry.parts.every((p) => typeof p.text === 'string')
     );
 
-    // Append the new user message
+    
     const conversationHistory = [
       ...validatedHistory,
       { role: 'user', parts: [{ text: message.trim() }] },
     ];
 
-    // Build dynamic system instructions containing developer info and user profile data if logged in
+    
     let userContext = `
 ## Guest User Information
 You are chatting with a guest user who is not logged in. Advise them to sign up or log in to access team tools, cast decisions, view company details, etc.
@@ -209,7 +209,7 @@ ${userContext}
 
     return res.json({
       reply: aiText,
-      // Return updated history so frontend can track it
+      
       history: [
         ...conversationHistory,
         { role: 'model', parts: [{ text: aiText }] },
@@ -218,7 +218,7 @@ ${userContext}
   } catch (error) {
     console.error('[AI Controller] Error:', error.message);
 
-    // Don't expose internal errors to client
+    
     if (error.message.includes('GEMINI_API_KEY')) {
       return res.status(503).json({ message: 'AI service not configured. Please contact support.' });
     }

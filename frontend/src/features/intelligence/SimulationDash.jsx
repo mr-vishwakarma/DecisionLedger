@@ -14,7 +14,7 @@ export default function SimulationDash() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
-      {/* 1 & 6. Executive Command Center & Institutional Intelligence Score */}
+      
       <motion.div 
         className="col-span-1 lg:col-span-3 bg-gradient-to-br from-blue-900/20 to-purple-900/20 border border-white/10 rounded-xl p-8 relative overflow-hidden"
         whileHover={{ borderColor: 'rgba(255,255,255,0.3)' }}
@@ -38,7 +38,7 @@ export default function SimulationDash() {
         </div>
       </motion.div>
 
-      {/* 2. Enterprise Scaling Simulator */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -72,7 +72,7 @@ export default function SimulationDash() {
         </div>
       </motion.div>
 
-      {/* 3. Stress Testing Engine */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 relative overflow-hidden"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -94,10 +94,10 @@ export default function SimulationDash() {
         </div>
       </motion.div>
 
-      {/* Grid for last two */}
+      
       <div className="flex flex-col gap-6">
         
-        {/* 4. Animated Decision Replay */}
+        
         <motion.div 
           className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 flex-1"
           whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -115,7 +115,7 @@ export default function SimulationDash() {
           </div>
         </motion.div>
 
-        {/* 5. Predictive Insights Engine */}
+        
         <motion.div 
           className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 flex-1"
           whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}

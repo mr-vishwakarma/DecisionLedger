@@ -39,10 +39,10 @@ export default function LandingPage() {
   };
 
   useEffect(() => {
-    // Register GSAP plugins
+    
     gsap.registerPlugin(ScrollTrigger);
 
-    // ─── Lenis Smooth Scrolling ───
+    
     const lenis = new Lenis();
     
     const raf = (time) => {
@@ -51,14 +51,14 @@ export default function LandingPage() {
     };
     requestAnimationFrame(raf);
 
-    // Connect Lenis scroll events to GSAP ScrollTrigger
+    
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
     });
     gsap.ticker.lagSmoothing(0);
 
-    // ─── Custom Follower Cursor ───
+    
     const cursor = cursorRef.current;
     
     const onMouseMove = (e) => {
@@ -83,7 +83,7 @@ export default function LandingPage() {
       el.addEventListener('mouseleave', onMouseLeaveInteractive);
     });
 
-    // ─── Hero Text Entry Animations ───
+    
     gsap.from('.reveal-item', {
       y: 40,
       duration: 1.2,
@@ -91,7 +91,7 @@ export default function LandingPage() {
       stagger: 0.08
     });
 
-    // ─── Scroll Reveal Observer for static elements ───
+    
     const observerOptions = {
       threshold: 0.1,
       rootMargin: '0px 0px -50px 0px'
@@ -107,9 +107,9 @@ export default function LandingPage() {
 
     document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
 
-    // ─── Removed Horizontal Scroll Pinning (Replaced by modular sections) ───
+    
 
-    // ─── Cleanup ───
+    
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
       interactives.forEach(el => {
@@ -142,10 +142,10 @@ export default function LandingPage() {
 
   return (
     <div className="bg-surface font-body min-h-screen text-on-surface relative">
-      {/* Noise Overlay */}
+      
       <div className="noise-overlay"></div>
 
-      {/* Settings Modal */}
+      
       <AnimatePresence>
         {showSettings && (
           <motion.div
@@ -192,13 +192,13 @@ export default function LandingPage() {
         )}
       </AnimatePresence>
 
-      {/* Dynamic Cursor */}
+      
       <div className="custom-cursor hidden md:block" ref={cursorRef} id="cursor"></div>
 
-      {/* WebGL Canvas */}
+      
       <FluidCanvas />
 
-      {/* Glass Navigation Bar */}
+      
       <nav className="fixed top-0 w-full z-50 glass-nav">
         <div className="flex justify-between items-center w-full px-margin-page py-6 max-w-screen-2xl mx-auto">
           <div className="font-display text-2xl tracking-tighter text-primary font-medium">
@@ -252,9 +252,9 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
+      
       <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
-        {/* Decorative Circle SVG Mask */}
+        
         <svg className="hero-mask-svg" viewBox="0 0 100 100">
           <circle className="text-on-surface" cx="50" cy="50" fill="none" opacity="0.3" r="48" stroke="currentColor" stroke-width="0.1"></circle>
         </svg>
@@ -300,7 +300,7 @@ export default function LandingPage() {
             </Link>
           </div>
 
-          {/* Social Proof / Metrics */}
+          
           <div className="flex justify-center gap-16 text-on-surface/60 text-xs uppercase tracking-widest border-t border-black/5 pt-8 max-w-md mx-auto">
             <div className="reveal-item">
               <span className="font-display text-2xl font-semibold block text-on-surface mb-1">
@@ -328,18 +328,18 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ─── MODULAR CINEMATIC SECTIONS ─── */}
+      
       <ProblemCostSection />
       <JourneyExplorationSection />
       <NarrativeGovernanceSection />
       <IntelligenceEcosystemSection />
       <InformationConversionSection />
 
-      {/* Connect With Us Section */}
+      
       <section className="content-section bg-surface py-stack-xl border-t border-black/5" id="connect">
         <div className="max-w-screen-2xl mx-auto px-margin-page flex flex-col lg:flex-row gap-16 lg:gap-24 items-start">
           
-          {/* Left Column: Info & Details */}
+          
           <div className="w-full lg:w-1/2 scroll-reveal">
             <span className="font-body text-xs uppercase tracking-widest opacity-50 mb-6 block">Get in Touch</span>
             <div className="flex items-start gap-4 mb-8">
@@ -353,7 +353,7 @@ export default function LandingPage() {
               Want to join, volunteer, complain, or send a meme? We read everything. We reply to most things.
             </p>
             
-            {/* Info Table */}
+            
             <div className="space-y-1">
               {[
                 ['EMAIL', 'support@decisionledger.io'],
@@ -369,12 +369,12 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Right Column: Brutalist Form */}
+          
           <div className="w-full lg:w-1/2 scroll-reveal" style={{ transitionDelay: '200ms' }}>
             <div className="bg-[#ebe7e6] border-2 border-black shadow-[6px_6px_0px_#000000] p-8 md:p-10 rounded-sm">
               <form onSubmit={handleFormSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Name field */}
+                  
                   <div className="flex flex-col gap-2">
                     <label className="font-body text-[10px] uppercase tracking-widest font-bold opacity-60">Your Name</label>
                     <input
@@ -387,7 +387,7 @@ export default function LandingPage() {
                       className="border border-black bg-transparent px-4 py-3 text-xs placeholder-on-surface/40 focus:outline-none w-full"
                     />
                   </div>
-                  {/* Email field */}
+                  
                   <div className="flex flex-col gap-2">
                     <label className="font-body text-[10px] uppercase tracking-widest font-bold opacity-60">Email</label>
                     <input
@@ -402,7 +402,7 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                {/* Subject field */}
+                
                 <div className="flex flex-col gap-2">
                   <label className="font-body text-[10px] uppercase tracking-widest font-bold opacity-60">Subject</label>
                   <input
@@ -416,7 +416,7 @@ export default function LandingPage() {
                   />
                 </div>
 
-                {/* Message field */}
+                
                 <div className="flex flex-col gap-2">
                   <label className="font-body text-[10px] uppercase tracking-widest font-bold opacity-60">Message</label>
                   <textarea
@@ -430,7 +430,7 @@ export default function LandingPage() {
                   ></textarea>
                 </div>
 
-                {/* Submit button */}
+                
                 <button
                   type="submit"
                   className="w-full bg-black text-white hover:bg-neutral-800 transition-all font-body text-xs uppercase tracking-widest py-4 font-semibold flex items-center justify-center gap-2"
@@ -447,7 +447,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Footer */}
+      
       <footer className="content-section py-stack-lg border-t border-black/5 bg-surface relative z-10">
         <div className="max-w-screen-2xl mx-auto px-margin-page flex flex-col md:flex-row justify-between items-center gap-8">
           <div>

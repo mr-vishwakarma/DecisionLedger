@@ -3,9 +3,9 @@ const { generateAccessToken, generateRefreshToken } = require('../utils/generate
 const sendEmail = require('../utils/sendEmail');
 const jwt = require('jsonwebtoken');
 
-// @desc    Register a new user
-// @route   POST /api/auth/register
-// @access  Public
+
+
+
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -23,10 +23,10 @@ const registerUser = async (req, res) => {
     });
 
     if (user) {
-      // Send verification email
+      
       const verificationToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'fallback_secret', { expiresIn: '1d' });
       
-      // Usually, you'd have a frontend URL here. Since we're doing local testing with postman, we'll return the token or log it.
+      
       const verifyUrl = `${req.protocol}://${req.get('host')}/api/auth/verifyemail/${verificationToken}`;
       
       const message = `Please confirm your email by clicking the following link: \n\n ${verifyUrl}`;
@@ -39,7 +39,7 @@ const registerUser = async (req, res) => {
         });
       } catch (error) {
         console.error('Email could not be sent', error);
-        // We continue anyway so the user can be returned, in production you might want to handle this differently
+        
       }
 
       res.status(201).json({
@@ -58,9 +58,9 @@ const registerUser = async (req, res) => {
   }
 };
 
-// @desc    Auth user & get token
-// @route   POST /api/auth/login
-// @access  Public
+
+
+
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -84,9 +84,9 @@ const loginUser = async (req, res) => {
   }
 };
 
-// @desc    Verify Email
-// @route   GET /api/auth/verifyemail/:token
-// @access  Public
+
+
+
 const verifyEmail = async (req, res) => {
   try {
     const token = req.params.token;
@@ -107,9 +107,9 @@ const verifyEmail = async (req, res) => {
   }
 };
 
-// @desc    Google OAuth Callback / Login
-// @route   POST /api/auth/google
-// @access  Public
+
+
+
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -117,7 +117,7 @@ const googleAuth = async (req, res) => {
   try {
     const { credential } = req.body;
     
-    // Verify the token securely with Google
+    
     const ticket = await client.verifyIdToken({
       idToken: credential,
       audience: process.env.GOOGLE_CLIENT_ID,
@@ -132,7 +132,7 @@ const googleAuth = async (req, res) => {
     let user = await User.findOne({ email });
     
     if (user) {
-      // User exists, just log them in
+      
       if (!user.googleId) {
         user.googleId = googleId;
         user.avatar = avatar;
@@ -148,7 +148,7 @@ const googleAuth = async (req, res) => {
         refreshToken: generateRefreshToken(user._id),
       });
     } else {
-      // Create new user
+      
       user = await User.create({
         name,
         email,
@@ -171,9 +171,9 @@ const googleAuth = async (req, res) => {
   }
 };
 
-// @desc    GitHub OAuth Callback / Login
-// @route   POST /api/auth/github
-// @access  Public
+
+
+
 const githubAuth = async (req, res) => {
   try {
     const { code } = req.body;
@@ -182,7 +182,7 @@ const githubAuth = async (req, res) => {
       return res.status(400).json({ message: 'Authorization code missing' });
     }
 
-    // 1. Exchange code for access token
+    
     const tokenResponse = await fetch('https://github.com/login/oauth/access_token', {
       method: 'POST',
       headers: {
@@ -204,7 +204,7 @@ const githubAuth = async (req, res) => {
 
     const accessToken = tokenData.access_token;
 
-    // 2. Fetch user profile from GitHub
+    
     const userResponse = await fetch('https://api.github.com/user', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -213,7 +213,7 @@ const githubAuth = async (req, res) => {
 
     const githubUser = await userResponse.json();
 
-    // 3. Fetch user emails from GitHub (primary email might not be public)
+    
     const emailsResponse = await fetch('https://api.github.com/user/emails', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -236,10 +236,10 @@ const githubAuth = async (req, res) => {
     let user = await User.findOne({ email });
 
     if (user) {
-      // User exists, log them in & link github if not linked
+      
       if (!user.githubId) {
         user.githubId = githubId;
-        if (!user.avatar) user.avatar = avatar; // Only overwrite if no avatar
+        if (!user.avatar) user.avatar = avatar; 
         user.isEmailVerified = true;
         await user.save();
       }
@@ -252,13 +252,13 @@ const githubAuth = async (req, res) => {
         refreshToken: generateRefreshToken(user._id),
       });
     } else {
-      // Create new user
+      
       user = await User.create({
         name,
         email,
         githubId,
         avatar,
-        isEmailVerified: true, // Trusted from GitHub
+        isEmailVerified: true, 
       });
       res.status(201).json({
         _id: user._id,
@@ -275,9 +275,9 @@ const githubAuth = async (req, res) => {
   }
 };
 
-// @desc    Get user profile
-// @route   GET /api/auth/profile
-// @access  Private
+
+
+
 const getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
@@ -299,9 +299,9 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-// @desc    Forgot Password
-// @route   POST /api/auth/forgot-password
-// @access  Public
+
+
+
 const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
@@ -313,7 +313,7 @@ const forgotPassword = async (req, res) => {
 
     const resetToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'fallback_secret', { expiresIn: '15m' });
     
-    // In production, use the actual frontend URL
+    
     const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
     const message = `You requested a password reset. Please go to this link to reset your password: \n\n ${resetUrl}`;
     
@@ -333,9 +333,9 @@ const forgotPassword = async (req, res) => {
   }
 };
 
-// @desc    Reset Password
-// @route   POST /api/auth/reset-password/:token
-// @access  Public
+
+
+
 const resetPassword = async (req, res) => {
   try {
     const { password } = req.body;
@@ -357,9 +357,9 @@ const resetPassword = async (req, res) => {
   }
 };
 
-// @desc    Refresh Access Token
-// @route   POST /api/auth/refresh
-// @access  Public
+
+
+
 const refreshToken = async (req, res) => {
   try {
     const { refreshToken } = req.body;
@@ -416,9 +416,9 @@ const updateUserProfile = async (req, res) => {
 };
 
 
-// @desc    Update Company Name
-// @route   PATCH /api/auth/profile/company
-// @access  Private
+
+
+
 const updateCompanyName = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);

@@ -27,7 +27,7 @@ export default function AdvancedGovDash() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full">
-      {/* 1. Governance Maturity Engine */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -66,7 +66,7 @@ export default function AdvancedGovDash() {
         </div>
       </motion.div>
 
-      {/* 2. Decision Quality Benchmarking */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -88,7 +88,7 @@ export default function AdvancedGovDash() {
         </div>
       </motion.div>
 
-      {/* 3. Governance Policy Engine */}
+      
       <motion.div 
         className="col-span-1 lg:col-span-2 bg-[#0a0a0a] border border-white/10 rounded-xl p-6"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -126,7 +126,7 @@ export default function AdvancedGovDash() {
         </div>
       </motion.div>
 
-      {/* 4. Organizational Memory Compression */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 relative overflow-hidden flex flex-col justify-center"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -162,7 +162,7 @@ export default function AdvancedGovDash() {
         </div>
       </motion.div>
 
-      {/* 5. Institutional Memory Time Machine */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 flex flex-col"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}

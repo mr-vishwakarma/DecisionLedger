@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 
 const Dashboard = () => {
-  // Mock Data
+  
   const decisions = [
     { id: 1, title: 'Switch to MongoDB', status: 'Finalized', date: '2026-05-20', proposer: 'Alice' },
     { id: 2, title: 'Adopt TailwindCSS v4', status: 'Pending', date: '2026-05-24', proposer: 'Bob' },

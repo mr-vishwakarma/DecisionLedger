@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ProblemCostSection() {
   const [costCounter, setCostCounter] = useState(0);
-  const [activeWorkflow, setActiveWorkflow] = useState('current'); // 'current' or 'ledger'
+  const [activeWorkflow, setActiveWorkflow] = useState('current'); 
   const [memoryLossIndex, setMemoryLossIndex] = useState(0);
 
   const memoryStages = [
@@ -14,12 +14,12 @@ export default function ProblemCostSection() {
   ];
 
   useEffect(() => {
-    // Animate cost counter
+    
     const costInterval = setInterval(() => {
       setCostCounter(prev => prev + Math.floor(Math.random() * 500) + 100);
     }, 50);
 
-    // Animate memory loss cycle
+    
     const memoryInterval = setInterval(() => {
       setMemoryLossIndex(prev => (prev + 1) % memoryStages.length);
     }, 2500);
@@ -33,7 +33,7 @@ export default function ProblemCostSection() {
   return (
     <div className="w-full flex flex-col items-center">
       
-      {/* SECTION 1: PROBLEM SECTION (Organizational Memory Loss) */}
+      
       <section className="min-h-screen w-full flex items-center justify-center relative bg-[#050505] px-margin-page border-t border-white/5 py-32">
         <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
@@ -71,7 +71,7 @@ export default function ProblemCostSection() {
         </div>
       </section>
 
-      {/* SECTION 2: COST OF BAD DECISIONS */}
+      
       <section className="min-h-screen w-full flex flex-col items-center justify-center relative bg-gradient-to-b from-[#050505] to-[#0a0000] px-margin-page border-t border-white/5 py-32">
         <span className="font-body text-[10px] uppercase tracking-[0.3em] text-red-500 mb-6 block text-center">02 / The Consequence</span>
         <h2 className="font-display text-5xl tracking-tighter text-white mb-16 text-center max-w-2xl">
@@ -98,7 +98,7 @@ export default function ProblemCostSection() {
         </div>
       </section>
 
-      {/* SECTION 3: HOW ORGANIZATIONS WORK TODAY */}
+      
       <section className="min-h-screen w-full flex flex-col items-center justify-center relative bg-[#050505] px-margin-page border-t border-white/5 py-32">
         <div className="max-w-6xl w-full">
           <div className="text-center mb-16">
@@ -157,13 +157,13 @@ export default function ProblemCostSection() {
                 >
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.1)_0,transparent_50%)]"></div>
                   
-                  {/* Central Hub */}
+                  
                   <div className="relative z-10 w-64 h-64 bg-blue-900/20 border border-blue-500/50 rounded-full flex flex-col items-center justify-center shadow-[0_0_50px_rgba(59,130,246,0.2)]">
                     <span className="material-symbols-outlined text-5xl text-blue-400 mb-2">account_balance</span>
                     <span className="font-display text-xl text-white font-bold tracking-widest uppercase">Immutable Ledger</span>
                   </div>
 
-                  {/* Connected Nodes */}
+                  
                   <div className="absolute top-1/2 left-[15%] w-32 h-24 bg-white/5 border border-white/20 rounded flex flex-col items-center justify-center -translate-y-1/2 z-20 backdrop-blur-sm">
                     <span className="text-xs font-bold text-white mb-1">Context</span>
                     <span className="text-[9px] text-white/50 uppercase tracking-widest">Preserved</span>
@@ -173,7 +173,7 @@ export default function ProblemCostSection() {
                     <span className="text-[9px] text-white/50 uppercase tracking-widest">Auditable</span>
                   </div>
                   
-                  {/* Connecting Lines */}
+                  
                   <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
                     <line x1="15%" y1="50%" x2="50%" y2="50%" stroke="rgba(59,130,246,0.5)" strokeWidth="2" strokeDasharray="5,5">
                       <animate attributeName="stroke-dashoffset" from="100" to="0" dur="2s" repeatCount="indefinite" />

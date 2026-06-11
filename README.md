@@ -225,4 +225,3 @@ contract DecisionLedgerAudit {
 
 ## 👥 Contributors
 - **Ram Vishwakarma** - *Lead Architect & Engineer*
-- **Antigravity AI** - *Engineering Pair Programmer*

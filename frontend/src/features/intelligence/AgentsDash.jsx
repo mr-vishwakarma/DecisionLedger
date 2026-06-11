@@ -22,7 +22,7 @@ export default function AgentsDash() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full">
-      {/* 1. Multi Agent Decision Simulator & Explainability */}
+      
       <motion.div 
         className="col-span-1 lg:col-span-2 bg-[#0a0a0a] border border-white/10 rounded-xl p-6 relative overflow-hidden flex flex-col md:flex-row gap-6"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -66,7 +66,7 @@ export default function AgentsDash() {
           </AnimatePresence>
         </div>
         
-        {/* Explainability Engine */}
+        
         <div className="w-full md:w-1/3 bg-black/50 border border-white/5 p-4 rounded-lg flex flex-col justify-center">
           <h4 className="text-xs text-white/50 uppercase tracking-widest mb-4">Explainability Engine</h4>
           <div className="space-y-3">
@@ -85,7 +85,7 @@ export default function AgentsDash() {
         </div>
       </motion.div>
 
-      {/* 2. Autonomous Governance Simulator */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -108,7 +108,7 @@ export default function AgentsDash() {
         </div>
       </motion.div>
 
-      {/* 3 & 4. Consensus Formation & Trust Engine */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 flex flex-col"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}

@@ -27,7 +27,7 @@ function AppRoutes() {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        {/* Public */}
+        
         <Route path="/" element={<LandingPage />} />
         <Route path="/auth" element={<PublicOnlyRoute><AuthPage /></PublicOnlyRoute>} />
         <Route path="/login" element={<PublicOnlyRoute><AuthPage /></PublicOnlyRoute>} />
@@ -40,7 +40,7 @@ function AppRoutes() {
         <Route path="/systems" element={<CommandCenter />} />
         <Route path="/logout" element={<LogoutPage />} />
 
-        {/* Authenticated (Dashboard Layout) */}
+        
         <Route element={<ProtectedRoute />}>
           <Route element={<DashboardLayout />}>
             <Route path="/dashboard" element={<DashboardPage />} />

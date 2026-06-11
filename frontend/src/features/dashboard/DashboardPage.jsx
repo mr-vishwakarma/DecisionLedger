@@ -22,7 +22,7 @@ export default function DashboardPage() {
       .catch(err => console.error('Failed to fetch timeline', err));
   }, []);
 
-  // Compute stats dynamically
+  
   const totalDec = analytics?.totalDecisions || 0;
   const finalizedDec = analytics?.finalizedDecisions || 0;
   const pendingDec = analytics?.pendingDecisions || 0;
@@ -32,7 +32,7 @@ export default function DashboardPage() {
   const velocity = totalDec > 0 ? (totalDec / 30).toFixed(1) : 0;
   const activeNodes = totalDec - finalizedDec;
 
-  // Forecast Data
+  
   const last7Days = Array.from({ length: 7 }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() - i);
@@ -50,7 +50,7 @@ export default function DashboardPage() {
     };
   });
 
-  // Org Health Radar Data
+  
   const orgHealthData = [
     { subject: 'Consensus', A: parseFloat(analytics?.avgConsensus || 80), fullMark: 100 },
     { subject: 'Participation', A: partRate || 70, fullMark: 100 },
@@ -59,7 +59,7 @@ export default function DashboardPage() {
     { subject: 'Security', A: 95, fullMark: 100 },
   ];
 
-  // Live network feed
+  
   const liveFeedMapped = timeline.map(act => {
     let type = 'NODE_CREATED';
     if (act.action === 'VOTED') type = 'VOTE_SECURED';
@@ -83,7 +83,7 @@ export default function DashboardPage() {
   return (
     <div className="p-8 pb-32 bg-background text-on-surface">
       
-      {/* Top KPIs */}
+      
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 font-sans">
         <div className="bg-surface-container border border-outline-variant/30 p-5 rounded-xl shadow-lg relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-16 -mt-16 group-hover:scale-110 transition-transform"></div>
@@ -113,10 +113,10 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        {/* Center Area: Charts */}
+        
         <div className="lg:col-span-2 space-y-8">
           
-          {/* Decision Forecasting Chart */}
+          
           <div className="bg-surface-container border border-outline-variant/30 p-6 rounded-xl shadow-lg">
             <div className="flex justify-between items-center mb-6">
               <div>
@@ -152,7 +152,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Cross-Team Analytics */}
+          
           <div className="bg-surface-container border border-outline-variant/30 p-6 rounded-xl shadow-lg flex gap-8">
             <div className="w-1/3">
               <h3 className="font-display text-lg text-on-surface">Organizational Health</h3>
@@ -181,10 +181,10 @@ export default function DashboardPage() {
 
         </div>
 
-        {/* Right Area: Live Feeds & Knowledge Graph */}
+        
         <div className="space-y-8">
           
-          {/* Live Global Feed */}
+          
           <div className="bg-surface-container border border-outline-variant/30 p-6 rounded-xl shadow-lg h-[300px] flex flex-col font-sans">
             <h3 className="font-display text-lg text-on-surface mb-6">Live Network Feed</h3>
             <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-4">
@@ -205,7 +205,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Mini Knowledge Graph */}
+          
           <div className="bg-surface-container border border-outline-variant/30 p-6 rounded-xl shadow-lg relative h-[250px] overflow-hidden flex flex-col items-center justify-center group">
             <h3 className="absolute top-6 left-6 font-display text-lg text-on-surface z-10">Knowledge Graph</h3>
             <svg className="absolute inset-0 w-full h-full opacity-60" viewBox="0 0 100 100">

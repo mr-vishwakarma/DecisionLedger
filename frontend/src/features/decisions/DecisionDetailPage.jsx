@@ -48,7 +48,7 @@ export default function DecisionDetailPage() {
     try {
       await api.post(`/decisions/${id}/vote`, { choice, reasoning: '' });
       toast.success('Vote recorded securely');
-      fetchDecision(); // refresh data
+      fetchDecision(); 
     } catch (error) {
       const errMsg = error.response?.data?.message || error.message;
       toast.error(errMsg);
@@ -101,7 +101,7 @@ export default function DecisionDetailPage() {
   return (
     <div className="p-6 lg:p-8 max-w-[1200px] mx-auto">
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-        {/* Breadcrumb */}
+        
         <div className="flex items-center gap-2 text-xs text-on-surface-variant mb-6">
           <Link to="/decisions" replace className="hover:text-primary transition-colors">Decisions</Link>
           <span className="material-symbols-outlined text-sm">chevron_right</span>
@@ -109,7 +109,7 @@ export default function DecisionDetailPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
+          
           <div className="lg:col-span-2 space-y-8">
             <div>
               <div className="flex items-center gap-3 mb-2">
@@ -129,7 +129,7 @@ export default function DecisionDetailPage() {
               </div>
             )}
 
-            {/* Discarded Alternatives */}
+            
             {decision.optionsConsidered && decision.optionsConsidered.length > 0 && (
               <div>
                 <h3 className="text-lg font-semibold text-on-surface font-geist mb-4">Considered Alternatives</h3>
@@ -176,7 +176,7 @@ export default function DecisionDetailPage() {
               </div>
             )}
             
-            {/* Finalization Form for Proposer */}
+            
             {decision.status === 'Pending' && isProposer && (
               <div className="glass-card rounded-xl p-6 border border-primary/30">
                 <h3 className="text-base font-semibold text-on-surface font-geist mb-2">Finalize Decision</h3>
@@ -198,9 +198,9 @@ export default function DecisionDetailPage() {
             
           </div>
 
-          {/* Right Sidebar */}
+          
           <div className="space-y-6">
-            {/* Consensus Widget */}
+            
             <div className="glass-card rounded-xl p-5">
               <div className="flex items-center justify-between mb-5">
                 <h3 className="text-base font-semibold text-on-surface font-geist">Consensus</h3>
@@ -268,7 +268,7 @@ export default function DecisionDetailPage() {
               )}
             </div>
 
-            {/* Author */}
+            
             <div className="glass-card rounded-xl p-5">
               <h4 className="text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider mb-3">Proposed By</h4>
               <div className="flex items-center gap-3">
@@ -282,7 +282,7 @@ export default function DecisionDetailPage() {
               </div>
             </div>
             
-            {/* Votes Log */}
+            
             {votes.length > 0 && (
               <div className="glass-card rounded-xl p-5">
                 <h3 className="text-base font-semibold text-on-surface font-geist mb-5">Voter Log</h3>
@@ -308,7 +308,7 @@ export default function DecisionDetailPage() {
         </div>
       </motion.div>
 
-      {/* Verification Modal */}
+      
       {showVerifyModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <motion.div 

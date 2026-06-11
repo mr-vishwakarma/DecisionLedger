@@ -21,7 +21,7 @@ const voteSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    // The hash of this specific vote, to ensure it wasn't tampered with
+    
     voteHash: {
       type: String,
     },
@@ -31,7 +31,7 @@ const voteSchema = new mongoose.Schema(
   }
 );
 
-// Prevent a user from voting twice on the same decision
+
 voteSchema.index({ decision: 1, voter: 1 }, { unique: true });
 
 const Vote = mongoose.model('Vote', voteSchema);

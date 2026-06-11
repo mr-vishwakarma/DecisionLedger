@@ -4,12 +4,12 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const path = require('path');
 
-// Load env vars
-dotenv.config({ path: path.join(__dirname, '../.env') }); // Load from root of backend
+
+dotenv.config({ path: path.join(__dirname, '../.env') }); 
 
 const app = express();
 
-// Route Imports
+
 const authRoutes = require('./routes/authRoutes');
 const decisionRoutes = require('./routes/decisionRoutes');
 const teamRoutes = require('./routes/teamRoutes');
@@ -17,7 +17,7 @@ const analyticsRoutes = require('./routes/analyticsRoutes');
 const userRoutes = require('./routes/userRoutes');
 const aiRoutes = require('./routes/aiRoutes');
 
-// Middleware
+
 app.use(express.json());
 const allowedOrigins = [
   'http://localhost:5173', 
@@ -42,7 +42,7 @@ app.use(cors({
   credentials: true
 }));
 
-// Mount Routes
+
 app.use('/api/auth', authRoutes);
 app.use('/api/decisions', decisionRoutes);
 app.use('/api/teams', teamRoutes);
@@ -50,19 +50,19 @@ app.use('/api/analytics', analyticsRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/ai', aiRoutes);
 
-// Basic Route
+
 app.get('/', (req, res) => {
   res.send('DecisionLedger API is running...');
 });
 
-// Export app for serverless or testing purposes
+
 module.exports = app;
 
-// Database connection
+
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/decision_ledger';
 
-// Only connect and listen if run directly (local development)
+
 if (require.main === module) {
   mongoose
     .connect(MONGO_URI)
@@ -76,4 +76,4 @@ if (require.main === module) {
       app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
     });
 }
-// Trigger nodemon restart for GitHub Auth env vars
+

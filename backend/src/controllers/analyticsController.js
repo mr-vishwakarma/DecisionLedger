@@ -3,16 +3,16 @@ const Vote = require('../models/Vote');
 const User = require('../models/User');
 const Activity = require('../models/Activity');
 
-// @desc    Get workspace analytics
-// @route   GET /api/analytics
-// @access  Private
+
+
+
 const getAnalytics = async (req, res) => {
   try {
     const totalDecisions = await Decision.countDocuments();
     const finalizedDecisions = await Decision.countDocuments({ status: 'finalized' });
     const pendingDecisions = await Decision.countDocuments({ status: 'pending' });
 
-    // Average consensus: average of consensusPercentage across all decisions that have it
+    
     const decisionsWithConsensus = await Decision.find({ consensusPercentage: { $exists: true, $ne: null } });
     let totalConsensus = 0;
     decisionsWithConsensus.forEach(d => {
@@ -37,9 +37,9 @@ const getAnalytics = async (req, res) => {
   }
 };
 
-// @desc    Get activity timeline
-// @route   GET /api/timeline
-// @access  Private
+
+
+
 const getTimeline = async (req, res) => {
   try {
     const activities = await Activity.find()
@@ -53,23 +53,23 @@ const getTimeline = async (req, res) => {
   }
 };
 
-// @desc    Public stats for landing page
-// @route   GET /api/public/stats
-// @access  Public
+
+
+
 const getPublicStats = async (req, res) => {
   try {
     const totalDecisions = await Decision.countDocuments();
-    const totalTeams = await User.countDocuments({ role: 'team' }); // placeholder: adjust as needed
-    const totalActiveTeams = await User.countDocuments({ role: 'team', isActive: true }); // placeholder field
+    const totalTeams = await User.countDocuments({ role: 'team' }); 
+    const totalActiveTeams = await User.countDocuments({ role: 'team', isActive: true }); 
     res.json({ totalDecisions, totalTeams, totalActiveTeams });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// @desc    Global search
-// @route   GET /api/search?q=keyword
-// @access  Private
+
+
+
 const globalSearch = async (req, res) => {
   try {
     const query = req.query.q;

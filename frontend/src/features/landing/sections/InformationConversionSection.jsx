@@ -14,7 +14,7 @@ export default function InformationConversionSection() {
   return (
     <div className="w-full flex flex-col items-center">
       
-      {/* SECTION 22: FAQ */}
+      
       <section className="w-full flex flex-col items-center justify-center relative bg-[#020202] px-margin-page py-32 border-b border-white/5">
         <div className="max-w-3xl w-full">
           <div className="text-center mb-16">
@@ -48,11 +48,11 @@ export default function InformationConversionSection() {
         </div>
       </section>
 
-      {/* SECTION 23 & 24: DOCS PREVIEW & ROADMAP */}
+      
       <section className="min-h-screen w-full flex flex-col items-center justify-center relative bg-[#050505] px-margin-page py-32">
         <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16">
           
-          {/* Docs Preview */}
+          
           <div>
             <span className="font-body text-[10px] uppercase tracking-[0.3em] text-green-500 mb-6 block">17 / Developer Experience</span>
             <h2 className="font-display text-4xl tracking-tighter text-white mb-6">Built for Engineers</h2>
@@ -80,7 +80,7 @@ export default function InformationConversionSection() {
             </div>
           </div>
 
-          {/* Roadmap */}
+          
           <div className="flex flex-col justify-center">
             <span className="font-body text-[10px] uppercase tracking-[0.3em] text-blue-500 mb-6 block">18 / The Future</span>
             <h2 className="font-display text-4xl tracking-tighter text-white mb-12">The Sovereign Vision</h2>
@@ -110,7 +110,7 @@ export default function InformationConversionSection() {
         </div>
       </section>
 
-      {/* SECTION 25: MULTIPLE CTA SYSTEMS (Final Conversion) */}
+      
       <section className="w-full flex flex-col items-center justify-center relative bg-blue-900/10 px-margin-page py-32 border-t border-blue-500/20">
         <div className="max-w-4xl w-full text-center relative z-10">
           <span className="font-body text-[10px] uppercase tracking-[0.3em] text-blue-400 mb-6 block">Initialization</span>

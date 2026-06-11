@@ -14,11 +14,11 @@ export default function TimelinePage() {
       .catch(err => console.error('Failed to fetch timeline', err));
   }, []);
 
-  // Map backend events to UI shape (ensure fields: id, year, month, title, type, description, x, y)
+  
   const historicalEvents = events.map((ev, index) => {
-    // Distribute nodes evenly between 15% and 90% of the canvas width
+    
     const x = 15 + (index * 75) / Math.max(1, events.length - 1);
-    // Project nodes on a wave aligning with the visual path
+    
     const y = 50 + 15 * Math.sin((x / 100) * 2.5 * Math.PI);
     return {
       id: ev._id || ev.id,
@@ -35,7 +35,7 @@ export default function TimelinePage() {
   return (
     <div className="flex flex-col h-full bg-background text-on-surface overflow-hidden p-8">
       
-      {/* Header */}
+      
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="font-display text-2xl text-on-surface">Decision Observatory</h1>
@@ -49,7 +49,7 @@ export default function TimelinePage() {
 
       <div className="flex-1 flex flex-col xl:flex-row gap-8 overflow-hidden">
         
-        {/* Main Canvas */}
+        
         <div className="flex-1 bg-surface-container border border-outline-variant/30 rounded-xl relative overflow-hidden flex items-center justify-center min-h-[400px]">
           <div className="absolute top-6 left-6 text-[10px] uppercase tracking-widest text-on-surface-variant/60 font-bold z-10 flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
@@ -69,21 +69,21 @@ export default function TimelinePage() {
             className="absolute inset-0 transition-transform duration-500"
             style={{ transform: `scale(${zoomLevel})` }}
           >
-            {/* Background Grid */}
+            
             <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'linear-gradient(var(--color-outline-variant) 1px, transparent 1px), linear-gradient(90deg, var(--color-outline-variant) 1px, transparent 1px)', backgroundSize: '100px 100px' }}></div>
             
             <svg className="absolute inset-0 w-full h-full overflow-visible">
-              {/* Main Timeline Spline */}
+              
               <path 
                 d={`M 10% 50% C 15% 50%, 20% 40%, 25% 40% C 35% 40%, 35% 60%, 45% 60% C 55% 60%, 55% 30%, 60% 30% C 70% 30%, 70% 50%, 80% 50% L 95% 50%`}
                 fill="none" stroke="var(--color-outline-variant)" strokeWidth="3" opacity="0.3"
               />
               
-              {/* Alternative Timelines (Counterfactuals) */}
+              
               <path d="M 25% 40% C 30% 20%, 35% 20%, 45% 20%" fill="none" stroke="rgba(239,68,68,0.3)" strokeWidth="2" strokeDasharray="4,4" />
               <path d="M 60% 30% C 65% 10%, 75% 10%, 80% 30%" fill="none" stroke="rgba(168,85,247,0.3)" strokeWidth="2" strokeDasharray="4,4" />
 
-              {/* Events */}
+              
               {historicalEvents.map(event => (
                 <g 
                   key={event.id} 
@@ -101,7 +101,7 @@ export default function TimelinePage() {
           </div>
         </div>
 
-        {/* Right Info Panel */}
+        
         <div className="w-full xl:w-96 bg-surface-container border border-outline-variant/30 rounded-xl flex flex-col shrink-0 overflow-hidden">
           {selectedEvent ? (
             <div className="flex flex-col h-full">

@@ -46,13 +46,13 @@ export default function CommandCenter() {
 
   return (
     <div className="min-h-screen bg-[#050505] text-[#e1e2ec] font-body flex flex-col overflow-hidden relative">
-      {/* Cinematic Grid Background */}
+      
       <div className="absolute inset-0 z-0 opacity-20" style={{
         backgroundImage: 'radial-gradient(circle at 1px 1px, #ffffff 1px, transparent 0)',
         backgroundSize: '40px 40px'
       }}></div>
 
-      {/* Header */}
+      
       <header className="relative z-10 border-b border-white/10 bg-black/50 backdrop-blur-md">
         <div className="flex items-center justify-between px-8 py-4">
           <div className="flex items-center gap-6">
@@ -73,10 +73,10 @@ export default function CommandCenter() {
         </div>
       </header>
 
-      {/* Main Layout */}
+      
       <div className="flex flex-1 relative z-10 overflow-hidden">
         
-        {/* Sidebar Navigation */}
+        
         <aside className="w-64 border-r border-white/10 bg-black/30 backdrop-blur-sm p-4 flex flex-col gap-2">
           {tabs.map(tab => (
             <button
@@ -94,7 +94,7 @@ export default function CommandCenter() {
           ))}
         </aside>
 
-        {/* Content Area */}
+        
         <main className="flex-1 overflow-y-auto overflow-x-hidden relative p-8">
           <AnimatePresence mode="wait">
             <motion.div

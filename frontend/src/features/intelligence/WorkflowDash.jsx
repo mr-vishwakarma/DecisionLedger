@@ -28,7 +28,7 @@ export default function WorkflowDash() {
   return (
     <div className="flex flex-col gap-6 h-[85vh]">
       
-      {/* 1 & 5. Decision Dependency Engine & Approval Builder */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 h-1/2 flex flex-col"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -60,10 +60,10 @@ export default function WorkflowDash() {
         </div>
       </motion.div>
 
-      {/* Grid for remaining 3 systems */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-1/2 min-h-[300px]">
         
-        {/* 2. Cross Team Mapping */}
+        
         <motion.div 
           className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 flex flex-col justify-center items-center text-center relative overflow-hidden"
           whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -85,7 +85,7 @@ export default function WorkflowDash() {
           </div>
         </motion.div>
 
-        {/* 3. Institutional Timeline Explorer */}
+        
         <motion.div 
           className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 flex flex-col"
           whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -110,7 +110,7 @@ export default function WorkflowDash() {
           </div>
         </motion.div>
 
-        {/* 4. Decision DNA View */}
+        
         <motion.div 
           className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 relative overflow-hidden"
           whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}

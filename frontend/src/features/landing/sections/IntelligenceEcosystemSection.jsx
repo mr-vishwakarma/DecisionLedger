@@ -25,11 +25,11 @@ export default function IntelligenceEcosystemSection() {
   return (
     <div className="w-full flex flex-col items-center">
       
-      {/* SECTION 15, 16, 17: AI ASSISTANT, ANALYTICS, RETENTION */}
+      
       <section className="min-h-screen w-full flex flex-col items-center justify-center relative bg-[#0a0a0a] px-margin-page py-32 border-b border-white/5">
         <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16">
           
-          {/* AI Assistant Demo */}
+          
           <div className="flex flex-col">
             <span className="font-body text-[10px] uppercase tracking-[0.3em] text-blue-500 mb-6 block">13 / Artificial Intelligence</span>
             <h2 className="font-display text-4xl tracking-tighter text-white mb-6">Ask the Ledger.</h2>
@@ -51,7 +51,7 @@ export default function IntelligenceEcosystemSection() {
             </div>
           </div>
 
-          {/* Analytics & Retention Grid */}
+          
           <div className="flex flex-col gap-6">
             <div className="bg-[#050505] border border-white/10 p-8 rounded-xl flex-1 flex flex-col justify-center">
               <h3 className="font-display text-2xl text-white mb-6">Interactive Analytics</h3>
@@ -79,7 +79,7 @@ export default function IntelligenceEcosystemSection() {
         </div>
       </section>
 
-      {/* SECTION 18 & 19: TIMELINE EXPLORER & ALTERNATIVES */}
+      
       <section className="min-h-screen w-full flex flex-col items-center justify-center relative bg-[#050505] px-margin-page py-32 border-b border-white/5">
         <div className="max-w-6xl w-full text-center mb-16">
           <span className="font-body text-[10px] uppercase tracking-[0.3em] text-white/40 mb-6 block">14 / Comparisons</span>
@@ -116,11 +116,11 @@ export default function IntelligenceEcosystemSection() {
         </div>
       </section>
 
-      {/* SECTION 20 & 21: INTEGRATIONS & ARCHITECTURE */}
+      
       <section className="min-h-screen w-full flex flex-col items-center justify-center relative bg-[#0a0a0a] px-margin-page py-32">
         <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
-          {/* Ecosystem map */}
+          
           <div>
             <span className="font-body text-[10px] uppercase tracking-[0.3em] text-purple-500 mb-6 block">15 / Ecosystem</span>
             <h2 className="font-display text-4xl tracking-tighter text-white mb-6">Integrates Everywhere</h2>
@@ -151,7 +151,7 @@ export default function IntelligenceEcosystemSection() {
             </div>
           </div>
 
-          {/* System Architecture Map */}
+          
           <div className="bg-[#050505] border border-white/10 rounded-2xl p-8 flex flex-col gap-4">
             <h3 className="text-[10px] uppercase tracking-widest text-white/40 mb-4 text-center">System Architecture</h3>
             

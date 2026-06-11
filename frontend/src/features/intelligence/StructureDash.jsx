@@ -20,7 +20,7 @@ const relationshipData = Array.from({ length: 30 }).map(() => ({
 export default function StructureDash() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full">
-      {/* 1. Institutional Intelligence Graph */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 relative overflow-hidden flex flex-col justify-center items-center h-64 lg:h-auto"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -30,7 +30,7 @@ export default function StructureDash() {
         <p className="text-xs text-white/50 uppercase tracking-widest mb-8 relative z-10 text-center">Interconnected Knowledge Networks</p>
         
         <div className="relative w-full h-full flex items-center justify-center">
-          {/* Simulated Node Network */}
+          
           <motion.div className="absolute w-2 h-2 bg-white rounded-full shadow-[0_0_10px_white] z-10" />
           {[...Array(8)].map((_, i) => {
             const angle = (i / 8) * Math.PI * 2;
@@ -56,7 +56,7 @@ export default function StructureDash() {
         </div>
       </motion.div>
 
-      {/* 2. Decision Relationship Matrix */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -77,7 +77,7 @@ export default function StructureDash() {
         </div>
       </motion.div>
 
-      {/* 3. Decision Conflict Detection */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 relative overflow-hidden"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -106,7 +106,7 @@ export default function StructureDash() {
         </div>
       </motion.div>
 
-      {/* 4 & 5. Strategic Alignment Radar & Goal Tracking */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 flex flex-col md:flex-row gap-6"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}

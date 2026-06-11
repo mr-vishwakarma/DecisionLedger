@@ -4,7 +4,7 @@ import {
   LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis
 } from 'recharts';
 
-// Mock Data Generators
+
 const generateTimeSeriesData = (points) => Array.from({ length: points }).map((_, i) => ({
   time: `T-${points - i}`,
   value: Math.floor(Math.random() * 40) + 60
@@ -24,7 +24,7 @@ export default function AnalyticsDash() {
   const [healthScore, setHealthScore] = useState(92);
   const [debtScore, setDebtScore] = useState(14);
 
-  // Simulate live updates
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setConfidenceData(prev => {
@@ -46,7 +46,7 @@ export default function AnalyticsDash() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {/* 1. Decision Confidence Engine */}
+      
       <motion.div 
         className="col-span-1 lg:col-span-2 bg-[#0a0a0a] border border-white/10 rounded-xl p-6 relative overflow-hidden"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -86,7 +86,7 @@ export default function AnalyticsDash() {
         </div>
       </motion.div>
 
-      {/* 2. Decision Health Monitoring */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 flex flex-col justify-between"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -121,7 +121,7 @@ export default function AnalyticsDash() {
         </div>
       </motion.div>
 
-      {/* 3. Decision Velocity Analytics */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -160,7 +160,7 @@ export default function AnalyticsDash() {
         </div>
       </motion.div>
 
-      {/* 4. Decision Complexity Analyzer */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 flex flex-col"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -180,7 +180,7 @@ export default function AnalyticsDash() {
         </div>
       </motion.div>
 
-      {/* 5. Decision Debt Engine */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}

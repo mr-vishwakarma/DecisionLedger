@@ -60,7 +60,7 @@ export default function NewDecisionPage() {
   return (
     <div className="p-6 lg:p-8 max-w-[1200px] mx-auto">
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-        {/* Header */}
+        
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-on-surface font-geist mb-2">Decision Parameters</h1>
           <p className="text-sm text-on-surface-variant max-w-xl">
@@ -69,9 +69,9 @@ export default function NewDecisionPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          {/* Form */}
+          
           <div className="lg:col-span-3 space-y-6">
-            {/* Decision Title */}
+            
             <div>
               <label className="block text-sm font-medium text-on-surface mb-2">Decision Title</label>
               <input
@@ -83,12 +83,12 @@ export default function NewDecisionPage() {
               />
             </div>
 
-            {/* Context & Alternatives */}
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-on-surface mb-2">Context & Description</label>
                 <div className="bg-surface-container border border-outline-variant/40 rounded-lg overflow-hidden focus-within:border-primary/50 focus-within:ring-1 focus-within:ring-primary/20 transition-all">
-                  {/* Mini toolbar */}
+                  
                   <div className="flex items-center gap-1 px-3 py-2 border-b border-outline-variant/20">
                     {['format_bold', 'format_italic', 'format_list_bulleted', 'link'].map((icon) => (
                       <button key={icon} className="p-1 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors">
@@ -117,7 +117,7 @@ export default function NewDecisionPage() {
               </div>
             </div>
 
-            {/* Priority & Deadline */}
+            
             <div className="grid grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-on-surface mb-2">Priority</label>
@@ -141,7 +141,7 @@ export default function NewDecisionPage() {
               </div>
             </div>
 
-            {/* Core Reasoning */}
+            
             <div>
               <label className="block text-sm font-medium text-on-surface mb-2">Core Reasoning</label>
               <textarea
@@ -153,7 +153,7 @@ export default function NewDecisionPage() {
               />
             </div>
 
-            {/* Tags */}
+            
             <div>
               <label className="block text-sm font-medium text-on-surface mb-2">Tags</label>
               <div className="flex flex-wrap items-center gap-2 bg-surface-container border border-outline-variant/40 rounded-lg px-3 py-2.5 focus-within:border-primary/50 focus-within:ring-1 focus-within:ring-primary/20 transition-all">
@@ -176,7 +176,7 @@ export default function NewDecisionPage() {
               </div>
             </div>
 
-            {/* Actions */}
+            
             <div className="flex items-center gap-3 pt-4">
               <button className="btn-secondary">Save Draft</button>
               <button className="btn-primary" onClick={handleSubmit} disabled={isSubmitting}>
@@ -185,7 +185,7 @@ export default function NewDecisionPage() {
             </div>
           </div>
 
-          {/* Live Preview */}
+          
           <div className="lg:col-span-2">
             <div className="glass-card rounded-xl p-5 sticky top-20">
               <div className="flex items-center justify-between mb-4">

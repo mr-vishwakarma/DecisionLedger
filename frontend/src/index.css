@@ -4,7 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Base Layer ─── */
+
 @layer base {
   :root {
     --color-primary: #000000;
@@ -160,10 +160,10 @@
   }
 }
 
-/* ─── Component Layer ─── */
+
 @layer components {
 
-  /* Glass Cards */
+  
   .glass-card {
     background: color-mix(in srgb, var(--color-surface-container) 70%, transparent);
     backdrop-filter: blur(16px);
@@ -181,12 +181,12 @@
     border: 1px solid color-mix(in srgb, var(--color-outline-variant) 40%, transparent);
   }
 
-  /* Subtle Inner Glow */
+  
   .inner-glow-primary {
     box-shadow: inset 0 1px 0 0 color-mix(in srgb, var(--color-primary) 5%, transparent);
   }
 
-  /* Gradient text */
+  
   .hero-gradient-text {
     background: linear-gradient(135deg, #ffffff 0%, #adc6ff 100%);
     -webkit-background-clip: text;
@@ -194,7 +194,7 @@
     background-clip: text;
   }
 
-  /* Buttons */
+  
   .btn-primary {
     @apply bg-primary text-background px-6 py-2.5 rounded-lg font-geist font-semibold text-sm
            hover:brightness-110 active:scale-[0.97] transition-all duration-200;
@@ -215,7 +215,7 @@
            hover:bg-surface-container hover:text-on-surface transition-all duration-200;
   }
 
-  /* Status Badges */
+  
   .badge {
     @apply inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold uppercase tracking-wider;
   }
@@ -243,7 +243,7 @@
     @apply bg-[#22c55e]/10 text-[#22c55e] border border-[#22c55e]/20;
   }
 
-  /* Sidebar */
+  
   .sidebar-item {
     @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
            text-on-surface-variant hover:text-on-surface hover:bg-surface-container
@@ -255,13 +255,13 @@
     background: color-mix(in srgb, var(--color-primary) 10%, transparent);
   }
 
-  /* Canvas background */
+  
   .canvas-bg {
     background-image: radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--color-outline-variant) 8%, transparent) 1px, transparent 0);
     background-size: 24px 24px;
   }
 
-  /* Scrollbar */
+  
   .custom-scrollbar::-webkit-scrollbar {
     width: 4px;
   }
@@ -276,7 +276,7 @@
     background: color-mix(in srgb, var(--color-primary) 30%, transparent);
   }
 
-  /* Stagger animation */
+  
   .stagger-in {
     opacity: 0;
     transform: translateY(16px);
@@ -284,7 +284,7 @@
   }
 }
 
-/* ─── Keyframes ─── */
+
 @keyframes fadeInUp {
   to {
     opacity: 1;
@@ -307,7 +307,7 @@
   100% { background-position: 200% 0; }
 }
 
-/* Skeleton loader */
+
   .skeleton {
   background: linear-gradient(90deg, color-mix(in srgb, var(--color-outline-variant) 30%, transparent) 0%, color-mix(in srgb, var(--color-outline-variant) 50%, transparent) 50%, color-mix(in srgb, var(--color-outline-variant) 30%, transparent) 100%);
   background-size: 200% 100%;
@@ -358,7 +358,7 @@
   background: var(--color-primary);
 }
 
-/* ─── Landing Page Premium Custom Styles ─── */
+
 .noise-overlay {
   position: fixed;
   top: 0;
@@ -413,7 +413,7 @@
 }
 
 .reveal-text {
-  /* clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); */
+  
 }
 
 #webgl-canvas {
@@ -441,7 +441,7 @@
   flex-wrap: nowrap;
 }
 
-/* Custom Spacing & Layout Utilities */
+
 .py-stack-xl {
   padding-top: 128px;
   padding-bottom: 128px;
@@ -476,7 +476,7 @@
   padding: 32px;
 }
 
-/* Custom Typography Utilities */
+
 .font-display {
   font-family: 'EB Garamond', serif !important;
 }
@@ -515,7 +515,7 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Custom Spacing & Layout Utilities */
+
 .py-stack-xl {
   padding-top: 128px;
   padding-bottom: 128px;
@@ -550,7 +550,7 @@
   padding: 32px;
 }
 
-/* Custom Typography Utilities */
+
 .font-display-lg, .font-headline-md, .font-headline-lg {
   font-family: 'EB Garamond', serif !important;
 }
@@ -608,7 +608,7 @@
   font-weight: 500;
 }
 
-/* Premium Animations */
+
 .word-reveal-container {
   overflow: hidden;
   display: inline-block;
@@ -641,7 +641,7 @@
   }
 }
 
-/* Canvas overlay & blending */
+
 .hero-canvas {
   position: absolute;
   top: 0;

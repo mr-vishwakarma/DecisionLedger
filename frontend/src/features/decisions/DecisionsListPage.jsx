@@ -5,7 +5,7 @@ import api from '../../services/api';
 
 export default function DecisionsListPage() {
   const [selectedNode, setSelectedNode] = useState(null);
-  const [viewMode, setViewMode] = useState('graph'); // 'graph' or 'list'
+  const [viewMode, setViewMode] = useState('graph'); 
 
   const [nodes, setNodes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,13 +15,13 @@ export default function DecisionsListPage() {
       try {
         const res = await api.get('/decisions');
         const data = res.data;
-        // Map backend Decision schema to frontend Graph schema
+        
         const mappedNodes = data.map((d, index) => ({
           id: d._id.substring(d._id.length - 6).toUpperCase(),
           _rawId: d._id,
           title: d.title,
           status: d.status === 'approved' ? 'LOCKED' : d.status === 'review' ? 'VOTING' : 'ACTIVE',
-          type: 'STRATEGIC', // Placeholder until category is added to backend
+          type: 'STRATEGIC', 
           x: 20 + (index * 15) % 60,
           y: 30 + (index * 20) % 50,
           impact: 'MEDIUM',
@@ -40,10 +40,10 @@ export default function DecisionsListPage() {
   return (
     <div className="flex h-full bg-background text-on-surface overflow-hidden relative">
       
-      {/* LEFT: WORKSPACE CANVAS */}
+      
       <div className="flex-1 flex flex-col relative border-r border-outline-variant/20">
         
-        {/* Workspace Toolbar */}
+        
         <div className="h-14 border-b border-outline-variant/20 bg-surface-container flex items-center justify-between px-6 z-10">
           <div className="flex items-center gap-4">
             <span className="font-display text-lg text-on-surface">Decision Topology Map</span>
@@ -55,21 +55,21 @@ export default function DecisionsListPage() {
           </div>
         </div>
 
-        {/* Main Graph Area */}
+        
         <div className="flex-1 relative overflow-hidden bg-background">
-          {/* Background Grid */}
+          
           <div className="absolute inset-0 opacity-40" style={{ backgroundImage: 'linear-gradient(var(--color-outline-variant) 1px, transparent 1px), linear-gradient(90deg, var(--color-outline-variant) 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
           
           {viewMode === 'graph' ? (
             <svg className="absolute inset-0 w-full h-full">
-              {/* Connecting Lines */}
+              
               <line x1="50%" y1="30%" x2="20%" y2="50%" stroke="var(--color-outline-variant)" strokeWidth="1" strokeDasharray="4,4" opacity={0.3} />
               <line x1="50%" y1="30%" x2="80%" y2="50%" stroke="var(--color-outline-variant)" strokeWidth="1" strokeDasharray="4,4" opacity={0.3} />
               <line x1="20%" y1="50%" x2="35%" y2="80%" stroke="var(--color-outline-variant)" strokeWidth="1" strokeDasharray="4,4" opacity={0.3} />
               <line x1="80%" y1="50%" x2="65%" y2="80%" stroke="var(--color-outline-variant)" strokeWidth="1" strokeDasharray="4,4" opacity={0.3} />
               <line x1="50%" y1="30%" x2="65%" y2="80%" stroke="#ef4444" strokeWidth="1" opacity="0.2" />
 
-              {/* Nodes */}
+              
               {nodes.map(node => (
                 <g 
                   key={node.id} 
@@ -120,14 +120,14 @@ export default function DecisionsListPage() {
             </div>
           )}
 
-          {/* Floating Action Button */}
+          
           <Link to="/decisions/new" className="absolute bottom-8 right-8 w-14 h-14 bg-blue-600 rounded-full shadow-[0_0_20px_rgba(37,99,235,0.4)] flex items-center justify-center text-white hover:scale-105 transition-transform hover:bg-blue-500">
             <span className="material-symbols-outlined text-[24px]">add</span>
           </Link>
         </div>
       </div>
 
-      {/* RIGHT: CONTEXTUAL INSPECTOR PANEL */}
+      
       <div className={`w-96 bg-surface-container flex flex-col shrink-0 transition-all duration-300 ${selectedNode ? 'translate-x-0' : 'translate-x-full absolute right-0 h-full border-l border-outline-variant/20'}`}>
         {selectedNode ? (
           <>
@@ -138,7 +138,7 @@ export default function DecisionsListPage() {
             
             <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-8">
               
-              {/* Header Info */}
+              
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-widest ${
@@ -154,7 +154,7 @@ export default function DecisionsListPage() {
                 <div className="text-xs text-on-surface-variant/80 flex items-center gap-2"><span className="material-symbols-outlined text-[14px]">groups</span> Owner: {selectedNode.team} Team</div>
               </div>
 
-              {/* AI Summary */}
+              
               <div className="bg-purple-500/5 border border-purple-500/20 rounded-xl p-4 relative overflow-hidden group cursor-pointer hover:bg-purple-500/10 transition-colors">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/10 rounded-bl-full -mr-12 -mt-12 transition-transform group-hover:scale-110"></div>
                 <div className="flex items-center gap-2 mb-2">
@@ -169,7 +169,7 @@ export default function DecisionsListPage() {
                 </div>
               </div>
 
-              {/* Dependency List */}
+              
               <div>
                 <h3 className="text-xs font-bold text-on-surface uppercase tracking-widest mb-3 border-b border-outline-variant/20 pb-2">Topological Dependencies</h3>
                 <div className="space-y-2">
@@ -190,7 +190,7 @@ export default function DecisionsListPage() {
                 </div>
               </div>
 
-              {/* Action Buttons */}
+              
               <div className="pt-4 border-t border-outline-variant/20 space-y-2">
                 <Link to={`/decisions/${selectedNode._rawId}`} className="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded shadow-[0_0_15px_rgba(37,99,235,0.3)] transition-all text-center block">Enter Node</Link>
                 <button className="w-full py-2.5 bg-surface-container-low hover:bg-surface-container-high border border-outline-variant/20 text-on-surface-variant text-xs font-bold rounded transition-colors">View Audit Trail</button>

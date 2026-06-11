@@ -12,9 +12,9 @@ const bottleneckData = [
 ];
 
 const riskData = Array.from({ length: 20 }).map((_, i) => ({
-  x: Math.random() * 100, // Impact
-  y: Math.random() * 100, // Probability/Uncertainty
-  z: Math.random() * 200 + 50, // Value at Risk
+  x: Math.random() * 100, 
+  y: Math.random() * 100, 
+  z: Math.random() * 200 + 50, 
   name: `Initiative ${i+1}`
 }));
 
@@ -27,7 +27,7 @@ const complianceData = [
 export default function GovernanceDash() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full">
-      {/* 1. Governance Compliance Engine */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -78,7 +78,7 @@ export default function GovernanceDash() {
         </div>
       </motion.div>
 
-      {/* 2. Decision Bottleneck Detection */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 flex flex-col"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -101,7 +101,7 @@ export default function GovernanceDash() {
         </div>
       </motion.div>
 
-      {/* 3. Institutional Risk Dashboard */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -127,7 +127,7 @@ export default function GovernanceDash() {
         </div>
       </motion.div>
 
-      {/* 4. Strategic Alignment Mapping */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 relative overflow-hidden flex flex-col justify-center"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}

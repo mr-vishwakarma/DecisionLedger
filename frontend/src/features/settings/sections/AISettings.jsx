@@ -22,7 +22,7 @@ export default function AISettings() {
       
       <div className="grid lg:grid-cols-2 gap-6">
         
-        {/* Features Config */}
+        
         <div className="space-y-6">
           <div className="glass-card p-6 rounded-xl border border-outline-variant/30">
             <h3 className="font-geist font-bold text-lg mb-6">Cognitive Features</h3>
@@ -85,7 +85,7 @@ export default function AISettings() {
           </div>
         </div>
 
-        {/* Live Preview Panel */}
+        
         <div className="glass-panel p-6 rounded-xl border border-outline-variant/30 h-full flex flex-col">
           <div className="flex items-center gap-2 mb-6 border-b border-outline-variant/30 pb-4">
             <span className="material-symbols-outlined text-primary">psychology</span>

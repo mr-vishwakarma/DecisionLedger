@@ -11,14 +11,14 @@ export const ThemeProvider = ({ children }) => {
   useEffect(() => {
     const root = window.document.documentElement;
 
-    // Remove old classes
+    
     root.classList.remove('light', 'dark', 'theme-default', 'theme-green', 'theme-red', 'theme-brown', 'theme-violet');
 
-    // Add new classes
+    
     root.classList.add(mode);
     root.classList.add(`theme-${color}`);
 
-    // Persist to local storage
+    
     localStorage.setItem('theme-mode', mode);
     localStorage.setItem('theme-color', color);
   }, [mode, color]);

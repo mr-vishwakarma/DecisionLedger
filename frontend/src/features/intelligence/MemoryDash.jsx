@@ -24,7 +24,7 @@ export default function MemoryDash() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full">
-      {/* 1. Organizational Memory Index */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -47,7 +47,7 @@ export default function MemoryDash() {
         </div>
       </motion.div>
 
-      {/* 2. Knowledge Loss Simulator */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 flex flex-col"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -88,7 +88,7 @@ export default function MemoryDash() {
         </div>
       </motion.div>
 
-      {/* 3. Decision Redundancy Detection */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}
@@ -111,7 +111,7 @@ export default function MemoryDash() {
         </div>
       </motion.div>
 
-      {/* 4. Pattern Recognition Engine */}
+      
       <motion.div 
         className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 relative overflow-hidden"
         whileHover={{ borderColor: 'rgba(255,255,255,0.2)' }}

@@ -72,7 +72,7 @@ export default function AIChatWidget() {
       role: 'model',
       text: `👋 Hi **${user?.name?.split(' ')[0] || 'there'}**! I'm your DecisionLedger AI Assistant.\n\nAsk me anything about the app — how to create decisions, vote, use analytics, manage teams, and more!`,
     },
-    // Governance AI greeting when logged in
+    
     ...(isLoggedIn ? [{
       id: 'gov-welcome',
       role: 'model',
@@ -161,7 +161,7 @@ export default function AIChatWidget() {
 
   return (
     <>
-      {/* Governance AI – toggleable for logged‑in users */}
+      
       <AnimatePresence>
         {isLoggedIn && showAiChat && (
           <motion.div
@@ -173,7 +173,7 @@ export default function AIChatWidget() {
             transition={{ duration: 0.2 }}
             style={styles.panelTopRight}
           >
-            {/* Header */}
+            
             <div style={styles.header}>
               <div style={styles.headerLeft}>
                 <div style={styles.botIconSmall}>
@@ -199,7 +199,7 @@ export default function AIChatWidget() {
               </button>
             </div>
 
-          {/* Quick Questions – same as before */}
+          
           {showQuickQuestions && messages.length === 1 && !isLoading && (
             <div style={styles.quickQuestionsWrapper}>
               <div style={styles.quickQuestionsTitle}>Suggested inquiries</div>
@@ -219,7 +219,7 @@ export default function AIChatWidget() {
             </div>
           )}
 
-          {/* Messages Container */}
+          
           <div style={styles.messagesContainer}>
             {messages.map((msg) => (
               <MessageBubble key={msg.id} message={msg} />
@@ -228,7 +228,7 @@ export default function AIChatWidget() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input Area – identical to original */}
+          
           <div style={styles.inputWrapper}>
             <div style={styles.inputPill}>
               <button style={styles.iconButton}>
@@ -276,7 +276,7 @@ export default function AIChatWidget() {
       )}
       </AnimatePresence>
 
-      {/* Standard chat for guests – styled as Governance AI */}
+      
       <AnimatePresence>
         {isOpen && !isLoggedIn && (
           <>
@@ -296,7 +296,7 @@ export default function AIChatWidget() {
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               style={styles.panel}
             >
-              {/* Header */}
+              
               <div style={styles.header}>
                 <div style={styles.headerLeft}>
                   <div style={styles.botIconSmall}>
@@ -322,7 +322,7 @@ export default function AIChatWidget() {
                 </button>
               </div>
 
-              {/* Quick Questions */}
+              
               {showQuickQuestions && messages.length === 1 && !isLoading && (
                 <div style={styles.quickQuestionsWrapper}>
                   <div style={styles.quickQuestionsTitle}>Suggested inquiries</div>
@@ -342,7 +342,7 @@ export default function AIChatWidget() {
                 </div>
               )}
 
-              {/* Messages Container */}
+              
               <div style={styles.messagesContainer}>
                 {messages.map((msg) => (
                   <MessageBubble key={msg.id} message={msg} />
@@ -351,7 +351,7 @@ export default function AIChatWidget() {
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Input Area */}
+              
               <div style={styles.inputWrapper}>
                 <div style={styles.inputPill}>
                   <button style={styles.iconButton}>
@@ -401,7 +401,7 @@ export default function AIChatWidget() {
         )}
       </AnimatePresence>
 
-      {/* FAB – only for guests */}
+      
       {!isOpen && !isLoggedIn && (
         <motion.button
           onClick={handleToggle}
@@ -442,7 +442,7 @@ const styles = {
     boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
     zIndex: 9999,
   },
-  // Standard panel (used for guest chat)
+  
   panel: {
     position: 'fixed',
     top: 0,
@@ -458,7 +458,7 @@ const styles = {
     fontFamily: 'Inter, system-ui, sans-serif',
     boxShadow: '-10px 0 30px rgba(0,0,0,0.5)',
   },
-  // Governance AI panel – top‑right, smaller and always visible for logged‑in users
+  
   panelTopRight: {
     position: 'fixed',
     top: '20px',

@@ -29,7 +29,7 @@ export default function WorkspaceSettings() {
       
       <div className="grid lg:grid-cols-3 gap-6">
         
-        {/* Main Settings Form */}
+        
         <div className="lg:col-span-2 space-y-6">
           <div className="glass-card p-6 rounded-xl border border-outline-variant/30 space-y-6 relative overflow-hidden">
             {!isEditing && <div className="absolute inset-0 z-10 cursor-not-allowed"></div>}
@@ -99,7 +99,7 @@ export default function WorkspaceSettings() {
           </div>
         </div>
 
-        {/* Info Sidebar */}
+        
         <div className="space-y-6">
           <div className="glass-panel p-6 rounded-xl border border-outline-variant/30">
             <h3 className="font-geist font-bold text-md mb-4 border-b border-outline-variant/30 pb-2">Workspace Health</h3>

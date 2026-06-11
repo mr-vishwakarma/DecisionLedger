@@ -27,7 +27,7 @@ function Sidebar({ collapsed, onToggle }) {
       transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
       className="hidden md:flex flex-col h-full bg-surface-container-lowest border-r border-outline-variant/30 sticky left-0 top-0 z-40 overflow-hidden"
     >
-      {/* Logo */}
+      
       <div className="px-4 h-16 flex items-center gap-3 border-b border-outline-variant/20 shrink-0">
         <img src="/logo.jpg" alt="DecisionLedger" className="w-9 h-9 rounded-lg shrink-0 object-cover shadow-[0_0_16px_rgba(173,198,255,0.2)]" />
         <AnimatePresence>
@@ -46,7 +46,7 @@ function Sidebar({ collapsed, onToggle }) {
         </AnimatePresence>
       </div>
 
-      {/* Navigation */}
+      
       <nav className="flex-1 py-3 px-2 space-y-0.5 overflow-y-auto custom-scrollbar">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path || 
@@ -91,7 +91,7 @@ function Sidebar({ collapsed, onToggle }) {
         })}
       </nav>
 
-      {/* Bottom */}
+      
       <div className="border-t border-outline-variant/20 py-3 px-2 space-y-0.5 shrink-0">
         {bottomItems.map((item) => {
           const isActive = location.pathname === item.path;
@@ -124,7 +124,7 @@ function Sidebar({ collapsed, onToggle }) {
           );
         })}
 
-        {/* Collapse Toggle */}
+        
         <button
           onClick={onToggle}
           className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all duration-200 w-full"

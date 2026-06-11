@@ -22,10 +22,10 @@ export default function AnalyticsPage() {
 
   const totalDecCount = decisions.length;
 
-  // Dynamically map anomaly scatter chart
+  
   const anomalyData = decisions.map((d, i) => {
     const voteCount = d.votes?.length || 0;
-    const isDraftLong = d.status === 'draft' && (new Date() - new Date(d.createdAt)) > 86400000; // > 1 day
+    const isDraftLong = d.status === 'draft' && (new Date() - new Date(d.createdAt)) > 86400000; 
     return {
       x: i * 10 + 10,
       y: voteCount * 10 + (isDraftLong ? 50 : 20),
@@ -36,14 +36,14 @@ export default function AnalyticsPage() {
     };
   });
 
-  // Provide fallback anomaly data if none is returned
+  
   const finalAnomalyData = anomalyData.length > 0 ? anomalyData : [
     { x: 10, y: 200, z: 200, name: 'Normal', fill: '#3b82f6' },
     { x: 20, y: 260, z: 260, name: 'Normal', fill: '#3b82f6' },
     { x: 50, y: 400, z: 400, name: 'Anomaly', fill: '#ef4444' },
   ];
 
-  // Group decisions by quarter (Q1, Q2, Q3, Q4)
+  
   const quarters = ['Q1', 'Q2', 'Q3', 'Q4'];
   const currentYear = new Date().getFullYear();
   
@@ -67,7 +67,7 @@ export default function AnalyticsPage() {
   return (
     <div className="flex flex-col h-full bg-background text-on-surface overflow-hidden p-8">
       
-      {/* Header */}
+      
       <div className="flex items-center justify-between mb-8 shrink-0">
         <div>
           <h1 className="font-display text-2xl text-on-surface">Enterprise Intelligence Analytics</h1>

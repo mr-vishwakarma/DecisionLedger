@@ -28,7 +28,7 @@ const decisionSchema = new mongoose.Schema({
   teamId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Team',
-    required: false,  // Optional — users can create personal decisions without a team
+    required: false,  
   },
   reasoning: {
     type: String,

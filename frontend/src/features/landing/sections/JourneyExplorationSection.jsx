@@ -34,7 +34,7 @@ export default function JourneyExplorationSection() {
   return (
     <div className="w-full flex flex-col items-center">
       
-      {/* SECTION 4 & 5: DECISION JOURNEY & CONTINUATION */}
+      
       <section className="min-h-screen w-full flex items-center justify-center relative bg-[#0a0a0a] px-margin-page border-t border-white/5 py-32 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.05)_0,transparent_70%)] pointer-events-none"></div>
         
@@ -47,9 +47,9 @@ export default function JourneyExplorationSection() {
             </p>
           </div>
 
-          {/* Interactive Pipeline */}
+          
           <div className="relative z-10">
-            {/* The Line */}
+            
             <div className="absolute top-1/2 left-0 w-full h-1 bg-white/10 -translate-y-1/2 hidden md:block">
               <motion.div 
                 className="h-full bg-blue-500 shadow-[0_0_10px_#3b82f6]" 
@@ -90,7 +90,7 @@ export default function JourneyExplorationSection() {
             </div>
           </div>
           
-          {/* Continuation System Demo */}
+          
           <div className="mt-32 p-8 border border-purple-500/30 bg-purple-900/10 rounded-2xl relative overflow-hidden">
             <div className="absolute top-0 right-0 p-4 opacity-20"><span className="material-symbols-outlined text-6xl text-purple-500">all_inclusive</span></div>
             <h3 className="font-display text-2xl text-white mb-2">Infinite Continuation</h3>
@@ -101,11 +101,11 @@ export default function JourneyExplorationSection() {
         </div>
       </section>
 
-      {/* SECTION 6 & 7: INDUSTRY USE CASES & DECISION TYPES EXPLORER */}
+      
       <section className="min-h-screen w-full flex flex-col items-center justify-center relative bg-[#080808] px-margin-page border-t border-white/5 py-32">
         <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16">
           
-          {/* Industry Selector */}
+          
           <div>
             <span className="font-body text-[10px] uppercase tracking-[0.3em] text-purple-500 mb-6 block">05 / Cross-Industry Application</span>
             <h2 className="font-display text-4xl tracking-tighter text-white mb-8">Sovereign Architecture for Every Scale</h2>
@@ -137,7 +137,7 @@ export default function JourneyExplorationSection() {
             </AnimatePresence>
           </div>
 
-          {/* Decision Types Grid */}
+          
           <div className="flex flex-col justify-center">
             <span className="font-body text-[10px] uppercase tracking-[0.3em] text-green-500 mb-6 block">06 / Universal Schema</span>
             <h2 className="font-display text-4xl tracking-tighter text-white mb-8">Not Just for Code</h2>
@@ -173,9 +173,9 @@ export default function JourneyExplorationSection() {
         </div>
       </section>
 
-      {/* SECTION 8: INTERACTIVE COMPANY SIMULATION (Sandbox) */}
+      
       <section className="min-h-screen w-full flex flex-col items-center justify-center relative bg-[#020202] px-margin-page border-y border-white/5 py-32 overflow-hidden">
-        {/* Massive background text */}
+        
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display font-bold text-[20vw] text-white/[0.02] whitespace-nowrap pointer-events-none tracking-tighter">
           SIMULATION
         </div>
